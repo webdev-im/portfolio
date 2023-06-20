@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   HStack,
   Link,
   Modal,
@@ -13,7 +14,7 @@ import {
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { FiGithub, FiGlobe, FiLinkedin } from "react-icons/fi";
 
 import Image from "next/image";
 import React from "react";
@@ -25,14 +26,20 @@ const handleClick = () => {
   saveAs(url, "portfolio");
 };
 
-const Header = () => {
+interface HeaderProps {
+  onClick?: () => void;
+}
+
+const Header = ({ onClick }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <HStack
       minW={isMobile ? "full" : "40%"}
       justify="space-between"
       minH="4rem"
+      px={{ base: "1rem", md: "0" }}
     >
       <HStack cursor="pointer">
         <Tooltip label="About me">
@@ -50,6 +57,16 @@ const Header = () => {
       <HStack spacing={7} justify="space-between">
         {/* ssocial media */}
         <HStack>
+          <Tooltip label="Examples">
+            <Flex>
+              <FiGlobe
+                fontSize="22px"
+                className="shaking"
+                onClick={onClick}
+                cursor="pointer"
+              />
+            </Flex>
+          </Tooltip>
           <Tooltip label="Github">
             <Link
               href="https://github.com/webdev-im/"
@@ -79,7 +96,7 @@ const Header = () => {
         <ModalContent>
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody pt={5}>
             <Image
               src="/portfolio.png"
               alt="portfolio"
@@ -89,7 +106,12 @@ const Header = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={onClose}
+              variant="outline"
+            >
               Close
             </Button>
             <Button

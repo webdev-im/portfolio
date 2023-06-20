@@ -26,7 +26,7 @@ export default function BigTextSlides({ slides }: BigTextSlideProps) {
       <VStack className="flex flex-col items-center">
         {slides.map((text, index) => {
           return (
-            <Heading key={text} fontSize={isMobile ? "3xl" : "6rem"}>
+            <Heading key={text} fontSize={isMobile ? "3rem" : "6rem"}>
               <span
                 className={classNames(
                   "absolute transition duration-1000",

@@ -1,12 +1,9 @@
 import "./globals.css";
 
-import { Ubuntu } from "@next/font/google";
+import { Inter } from "next/font/google";
 
-export const ubuntu = Ubuntu({
-  subsets: ["cyrillic"],
-  weight: "300",
-});
-
+// If loading a variable font, you don't need to specify the font weight
+const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({
   children,
 }: {
@@ -14,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={ubuntu.className}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

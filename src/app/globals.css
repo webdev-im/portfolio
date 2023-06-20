@@ -24,12 +24,13 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  transition: background 0.5s ease;
 }
 
 [data-theme="dark"],
 [data-theme="dark"] body {
-  color: #fff;
-  background: #000;
+  color: #ededed;
+  background: #171717;
 }
 
 [data-theme="light"],
@@ -63,4 +64,14 @@ body {
   60% {
     transform: translate3d(2px, 0, 0);
   }
+}
+
+.flipH:hover {
+  transform: scale(-1, 1);
+  color: #1c87c9;
+  -moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
 }
