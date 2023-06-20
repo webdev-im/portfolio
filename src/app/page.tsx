@@ -62,18 +62,18 @@ export default function Container(props: any) {
                       url: "somethingforwindy.netlify.app",
                     },
                     {
-                      title: "Cozy cafe",
+                      title: "Animatrix",
                       string: "cozycafe",
-                      url: "cozy-cafe.netlify.app",
+                      url: "animatrix.lt",
                     },
                     {
-                      title: "Animatrix",
+                      title: "Cozy cafe",
                       string: "animatrix",
-                      url: "animatrix.lt",
+                      url: "cozy-cafe.netlify.app",
                     },
                   ].map((e) => (
                     <Link
-                      href={`/${e.url}`}
+                      href={`https://${e.url}`}
                       key={e.title}
                       isExternal
                       onMouseEnter={() => {

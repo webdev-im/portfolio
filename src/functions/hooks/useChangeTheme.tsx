@@ -3,7 +3,6 @@ import { GiMoonBats, GiSun } from "react-icons/gi";
 
 export const UseChangeTheme = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log(colorMode);
 
   return (
     <div>
