@@ -58,10 +58,19 @@ export default function Container(props: any) {
                   {[
                     {
                       title: "Something for Windy",
+                      string: "somethingforwindy",
                       url: "somethingforwindy.netlify.app",
                     },
-                    { title: "Cozy cafe", url: "cozy-cafe.netlify.app" },
-                    { title: "Animatrix", url: "animatrix.lt" },
+                    {
+                      title: "Cozy cafe",
+                      string: "cozycafe",
+                      url: "cozy-cafe.netlify.app",
+                    },
+                    {
+                      title: "Animatrix",
+                      string: "animatrix",
+                      url: "animatrix.lt",
+                    },
                   ].map((e) => (
                     <Link
                       href={`/${e.url}`}
@@ -76,7 +85,7 @@ export default function Container(props: any) {
                       style={{ position: "relative" }}
                     >
                       <Image
-                        src={`/${e.title}.png`}
+                        src={`/${e.string}.png`}
                         alt={e.title}
                         width={500}
                         height={400}
