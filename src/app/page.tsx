@@ -63,12 +63,12 @@ export default function Container(props: any) {
                     },
                     {
                       title: "Animatrix",
-                      string: "cozycafe",
+                      string: "animatrix",
                       url: "animatrix.lt",
                     },
                     {
                       title: "Cozy cafe",
-                      string: "animatrix",
+                      string: "cozycafe",
                       url: "cozy-cafe.netlify.app",
                     },
                   ].map((e) => (
