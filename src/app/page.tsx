@@ -24,6 +24,7 @@ import Header from "@/components/Layout/Header";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function Container(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,33 +78,38 @@ export default function Container(props: any) {
                       url: "cozy-cafe.netlify.app",
                     },
                   ].map((e) => (
-                    <Link
-                      href={`https://${e.url}`}
-                      isExternal
+                    <motion.div
                       key={e.title}
-                      onMouseEnter={() => {
-                        setTitle(e.title);
-                      }}
-                      onMouseLeave={() => {
-                        setTitle("");
-                      }}
-                      style={{ position: "relative" }}
+                      animate={{ y: 20 }}
+                      transition={{ delay: 1 }}
                     >
-                      <Image
-                        src={`/${e.string}.png`}
-                        alt={e.title}
-                        width={500}
-                        height={400}
-                      />
-                      <Text
-                        position="absolute"
-                        bottom={2}
-                        left={2}
-                        fontWeight="bold"
+                      <Link
+                        href={`https://${e.url}`}
+                        isExternal
+                        onMouseEnter={() => {
+                          setTitle(e.title);
+                        }}
+                        onMouseLeave={() => {
+                          setTitle("");
+                        }}
+                        style={{ position: "relative" }}
                       >
-                        {title === e.title && e.title}
-                      </Text>
-                    </Link>
+                        <Image
+                          src={`/${e.string}.png`}
+                          alt={e.title}
+                          width={500}
+                          height={400}
+                        />
+                        <Text
+                          position="absolute"
+                          bottom={2}
+                          left={2}
+                          fontWeight="bold"
+                        >
+                          {title === e.title && e.title}
+                        </Text>
+                      </Link>
+                    </motion.div>
                   ))}
                 </VStack>
               </DrawerBody>

@@ -20,6 +20,7 @@ import { FiGithub, FiGlobe, FiLinkedin } from "react-icons/fi";
 import Image from "next/image";
 import React from "react";
 import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
+import { motion } from "framer-motion";
 import { saveAs } from "file-saver";
 
 const handleClick = () => {
@@ -102,12 +103,14 @@ const Header = ({ onClick }: HeaderProps) => {
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody pt={5}>
-            <Image
-              src="/portfolio.png"
-              alt="portfolio"
-              width={800}
-              height={800}
-            />
+            <motion.div animate={{ y: 5 }} transition={{ delay: 1 }}>
+              <Image
+                src="/portfolio.png"
+                alt="portfolio"
+                width={800}
+                height={800}
+              />
+            </motion.div>
           </ModalBody>
 
           <ModalFooter mr={"-10px"}>

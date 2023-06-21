@@ -7,7 +7,7 @@ const Footer = () => {
     <HStack
       minW="100%"
       justify="center"
-      pb={2}
+      pb={4}
       fontSize={{ base: "xs", md: "sm" }}
     >
       <HStack spacing={2}>
