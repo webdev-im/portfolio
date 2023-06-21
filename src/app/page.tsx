@@ -39,6 +39,46 @@ export default function Container(props: any) {
         description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
       />
       <VStack minH="100vh" spacing={0} justifyContent="space-between">
+        {/* metatags */}
+        <head>
+          {/* main */}
+          <title>WebDev I'm</title>
+          <meta name="title" content="WebDev I'm" />
+          <meta
+            name="description"
+            content="Visual Design / Web Design / UI-UX / Front-End Developer"
+          />
+
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://webdevim.netlify.app" />
+          <meta property="og:title" content="WebDev I'm" />
+          <meta
+            property="og:description"
+            content="Visual Design / Web Design / UI-UX / Front-End Developer"
+          />
+          <meta
+            property="og:image"
+            content="https://metatags.io/images/meta-tags.png"
+          />
+
+          {/* Twitter */}
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta
+            property="twitter:url"
+            content="https://webdevim.netlify.app  "
+          />
+          <meta property="twitter:title" content="WebDev I'm" />
+          <meta
+            property="twitter:description"
+            content="Visual Design / Web Design / UI-UX / Front-End Developer"
+          />
+          <meta
+            property="twitter:image"
+            content="https://metatags.io/images/meta-tags.png"
+          />
+        </head>
+
+        {/* Theme provider */}
         <ChakraProvider>
           {/* Header */}
           <Header onClick={onOpen} />
