@@ -24,7 +24,6 @@ import Header from "@/components/Layout/Header";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import React from "react";
-import { motion } from "framer-motion";
 
 export default function Container(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,48 +37,12 @@ export default function Container(props: any) {
         title="WebDev I'm"
         description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
       />
-      <VStack minH="100vh" spacing={0} justifyContent="space-between">
-        {/* metatags */}
-        <head>
-          {/* main */}
-          <title>WebDev I'm</title>
-          <meta name="title" content="WebDev I'm" />
-          <meta
-            name="description"
-            content="Visual Design / Web Design / UI-UX / Front-End Developer"
-          />
 
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://webdevim.netlify.app" />
-          <meta property="og:title" content="WebDev I'm" />
-          <meta
-            property="og:description"
-            content="Visual Design / Web Design / UI-UX / Front-End Developer"
-          />
-          <meta
-            property="og:image"
-            content="https://metatags.io/images/meta-tags.png"
-          />
+      {/* metatags */}
 
-          {/* Twitter */}
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta
-            property="twitter:url"
-            content="https://webdevim.netlify.app  "
-          />
-          <meta property="twitter:title" content="WebDev I'm" />
-          <meta
-            property="twitter:description"
-            content="Visual Design / Web Design / UI-UX / Front-End Developer"
-          />
-          <meta
-            property="twitter:image"
-            content="https://metatags.io/images/meta-tags.png"
-          />
-        </head>
-
-        {/* Theme provider */}
-        <ChakraProvider>
+      {/* Theme provider */}
+      <ChakraProvider>
+        <VStack minH="100vh" spacing={0} justifyContent="space-between">
           {/* Header */}
           <Header onClick={onOpen} />
 
@@ -114,35 +77,33 @@ export default function Container(props: any) {
                       url: "cozy-cafe.netlify.app",
                     },
                   ].map((e) => (
-                    <motion.div animate={{ y: 20 }} transition={{ delay: 1 }}>
-                      <Link
-                        href={`https://${e.url}`}
-                        key={e.title}
-                        isExternal
-                        onMouseEnter={() => {
-                          setTitle(e.title);
-                        }}
-                        onMouseLeave={() => {
-                          setTitle("");
-                        }}
-                        style={{ position: "relative" }}
+                    <Link
+                      href={`https://${e.url}`}
+                      isExternal
+                      key={e.title}
+                      onMouseEnter={() => {
+                        setTitle(e.title);
+                      }}
+                      onMouseLeave={() => {
+                        setTitle("");
+                      }}
+                      style={{ position: "relative" }}
+                    >
+                      <Image
+                        src={`/${e.string}.png`}
+                        alt={e.title}
+                        width={500}
+                        height={400}
+                      />
+                      <Text
+                        position="absolute"
+                        bottom={2}
+                        left={2}
+                        fontWeight="bold"
                       >
-                        <Image
-                          src={`/${e.string}.png`}
-                          alt={e.title}
-                          width={500}
-                          height={400}
-                        />
-                        <Text
-                          position="absolute"
-                          bottom={2}
-                          left={2}
-                          fontWeight="bold"
-                        >
-                          {title === e.title && e.title}
-                        </Text>
-                      </Link>
-                    </motion.div>
+                        {title === e.title && e.title}
+                      </Text>
+                    </Link>
                   ))}
                 </VStack>
               </DrawerBody>
@@ -174,8 +135,8 @@ export default function Container(props: any) {
           </VStack>
 
           <Footer />
-        </ChakraProvider>
-      </VStack>
+        </VStack>
+      </ChakraProvider>
     </>
   );
 }

@@ -11,7 +11,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        {children}
+      </body>
     </html>
   );
 }
+
+export const metadata = {
+  title: "WebDev I'm",
+  description: "Visual Design / Web Design / UI-UX / Front-End Developer",
+  image: "favicon.ico",
+  openGraph: {
+    title: "WebDev I'm",
+    description: "Visual Design / Web Design / UI-UX / Front-End Developer",
+    image: "favicon.ico",
+  },
+};
