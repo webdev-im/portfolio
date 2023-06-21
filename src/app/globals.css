@@ -75,3 +75,15 @@ body {
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
+
+.btn-gradient-1 {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 50%;
+  border-image: linear-gradient(to right, darkblue, darkorchid) 1;
+}
+
+.btn-gradient-1 {
+  border-radius: 50%;
+  background: linear-gradient(to right, darkblue, darkorchid) 1;
+}

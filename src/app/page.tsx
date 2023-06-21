@@ -24,7 +24,7 @@ import Header from "@/components/Layout/Header";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
 import React from "react";
-import { ThemeProvider } from "next-themes";
+import { motion } from "framer-motion";
 
 export default function Container(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,10 +38,12 @@ export default function Container(props: any) {
         title="WebDev I'm"
         description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
       />
-      <VStack>
+      <VStack minH="100vh" spacing={0} justifyContent="space-between">
         <ChakraProvider>
+          {/* Header */}
           <Header onClick={onOpen} />
 
+          {/* Drawer */}
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
             <DrawerContent
@@ -50,7 +52,7 @@ export default function Container(props: any) {
               }
               color={colorMode === "light" ? "black" : "white"}
             >
-              <DrawerCloseButton />
+              <DrawerCloseButton mt={2} mr={2} />
               <DrawerHeader>Live projects</DrawerHeader>
 
               <DrawerBody>
@@ -72,39 +74,41 @@ export default function Container(props: any) {
                       url: "cozy-cafe.netlify.app",
                     },
                   ].map((e) => (
-                    <Link
-                      href={`https://${e.url}`}
-                      key={e.title}
-                      isExternal
-                      onMouseEnter={() => {
-                        setTitle(e.title);
-                      }}
-                      onMouseLeave={() => {
-                        setTitle("");
-                      }}
-                      style={{ position: "relative" }}
-                    >
-                      <Image
-                        src={`/${e.string}.png`}
-                        alt={e.title}
-                        width={500}
-                        height={400}
-                      />
-                      <Text
-                        position="absolute"
-                        bottom={2}
-                        left={2}
-                        fontWeight="bold"
+                    <motion.div animate={{ y: 20 }} transition={{ delay: 1 }}>
+                      <Link
+                        href={`https://${e.url}`}
+                        key={e.title}
+                        isExternal
+                        onMouseEnter={() => {
+                          setTitle(e.title);
+                        }}
+                        onMouseLeave={() => {
+                          setTitle("");
+                        }}
+                        style={{ position: "relative" }}
                       >
-                        {title === e.title && e.title}
-                      </Text>
-                    </Link>
+                        <Image
+                          src={`/${e.string}.png`}
+                          alt={e.title}
+                          width={500}
+                          height={400}
+                        />
+                        <Text
+                          position="absolute"
+                          bottom={2}
+                          left={2}
+                          fontWeight="bold"
+                        >
+                          {title === e.title && e.title}
+                        </Text>
+                      </Link>
+                    </motion.div>
                   ))}
                 </VStack>
               </DrawerBody>
 
               <DrawerFooter>
-                <Button mr={3} onClick={onClose}>
+                <Button onClick={onClose} colorScheme="blue">
                   Close
                 </Button>
               </DrawerFooter>
@@ -112,10 +116,9 @@ export default function Container(props: any) {
           </Drawer>
           <VStack mb={{ base: "2rem", md: "0" }}>
             <Heading
-              fontSize={{ base: "sm", md: "lg" }}
-              // className="flipH"
+              fontSize={{ base: "xs", md: "lg" }}
               transition="0.3s"
-              mt={{ base: "3rem", md: "0" }}
+              mt={{ base: "1rem", md: "0" }}
             >
               I specialize in these technologies
             </Heading>

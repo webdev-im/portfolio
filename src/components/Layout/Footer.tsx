@@ -4,7 +4,12 @@ import { GiSelfLove } from "react-icons/gi";
 
 const Footer = () => {
   return (
-    <HStack minW="100%" mt={20} justify="center">
+    <HStack
+      minW="100%"
+      justify="center"
+      pb={2}
+      fontSize={{ base: "xs", md: "sm" }}
+    >
       <HStack spacing={2}>
         <Text>Made with </Text>
         <Text>

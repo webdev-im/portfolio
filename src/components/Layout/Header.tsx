@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   Tooltip,
   useBreakpointValue,
+  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { FiGithub, FiGlobe, FiLinkedin } from "react-icons/fi";
@@ -33,6 +34,7 @@ interface HeaderProps {
 const Header = ({ onClick }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   return (
     <HStack
@@ -93,7 +95,10 @@ const Header = ({ onClick }: HeaderProps) => {
       </HStack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          bg={colorMode === "light" ? "rgb(40, 40, 40) " : "rgb(70, 70, 70)"}
+          color={colorMode === "light" ? "black" : "white"}
+        >
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody pt={5}>
@@ -105,7 +110,7 @@ const Header = ({ onClick }: HeaderProps) => {
             />
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter mr={"-10px"}>
             <Button
               colorScheme="blue"
               mr={3}
