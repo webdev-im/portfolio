@@ -63,14 +63,19 @@ export default function Container(props: any) {
                 <VStack spacing={4}>
                   {[
                     {
-                      title: "Something for Windy",
-                      string: "somethingforwindy",
-                      url: "somethingforwindy.netlify.app",
+                      title: "Renata Valcik",
+                      string: "renatavalcik",
+                      url: "renatavalcik.com",
                     },
                     {
                       title: "Animatrix",
                       string: "animatrix",
                       url: "animatrix.lt",
+                    },
+                    {
+                      title: "Something for Windy",
+                      string: "somethingforwindy",
+                      url: "somethingforwindy.netlify.app",
                     },
                     {
                       title: "Cozy cafe",

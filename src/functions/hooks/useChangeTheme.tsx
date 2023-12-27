@@ -6,17 +6,17 @@ export const UseChangeTheme = () => {
 
   return (
     <div>
-      <Tooltip label={colorMode === "dark" ? "Light Mode" : "Dark Mode"}>
+      <Tooltip label={colorMode === "light" ? "Light Mode" : "Dark Mode"}>
         <Flex cursor="pointer" onClick={toggleColorMode}>
-          {colorMode === "dark" ? (
+          {colorMode === "light" ? (
             <GiSun
               fontSize="20px"
-              color={colorMode === "dark" ? "white" : "black"}
+              color={colorMode === "light" ? "black" : "white"}
             />
           ) : (
             <GiMoonBats
               fontSize="22px"
-              color={colorMode === "light" ? "black" : "white"}
+              color={colorMode === "dark" ? "white" : "black"}
             />
           )}
         </Flex>
