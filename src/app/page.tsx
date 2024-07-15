@@ -136,17 +136,18 @@ export default function Container(props: any) {
             </Heading>
             <BigTextSlides
               slides={[
-                "NextJs.",
+                "Figma.",
                 "Chakra UI.",
                 "Typescript.",
                 "Strapi CMS.",
-                "Figma.",
+                "NextJs.",
               ]}
             />
           </VStack>
 
           <Footer />
         </VStack>
+        <div className="bg"></div>
       </ChakraProvider>
     </>
   );

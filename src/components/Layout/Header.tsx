@@ -43,6 +43,7 @@ const Header = ({ onClick }: HeaderProps) => {
       justify="space-between"
       minH="4rem"
       px={{ base: "1rem", md: "0" }}
+      zIndex={2}
     >
       <HStack cursor="pointer">
         <Tooltip label="About me">
