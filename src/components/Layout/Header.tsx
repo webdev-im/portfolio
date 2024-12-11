@@ -24,8 +24,8 @@ import { motion } from "framer-motion";
 import { saveAs } from "file-saver";
 
 const handleClick = () => {
-  let url = "/portfolio.png";
-  saveAs(url, "portfolio");
+  let url = "/resume.png";
+  saveAs(url, "resume");
 };
 
 interface HeaderProps {
@@ -105,12 +105,7 @@ const Header = ({ onClick }: HeaderProps) => {
           <ModalCloseButton />
           <ModalBody pt={5}>
             <motion.div animate={{ y: 5 }} transition={{ delay: 1 }}>
-              <Image
-                src="/portfolio.png"
-                alt="portfolio"
-                width={800}
-                height={800}
-              />
+              <Image src="/resume.png" alt="resume" width={800} height={800} />
             </motion.div>
           </ModalBody>
 
