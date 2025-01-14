@@ -15,8 +15,9 @@ import {
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FiGithub, FiGlobe, FiLinkedin } from "react-icons/fi";
+import { FiGithub, FiGlobe, FiLinkedin, FiMail } from "react-icons/fi";
 
+import ContactForm from "./ContactForm";
 import Image from "next/image";
 import React from "react";
 import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
@@ -34,7 +35,18 @@ interface HeaderProps {
 
 const Header = ({ onClick }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isResumeOpen,
+    onOpen: onResumeOpen,
+    onClose: onResumeClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isContactOpen,
+    onOpen: onContactOpen,
+    onClose: onContactClose,
+  } = useDisclosure();
+
   const { colorMode } = useColorMode();
 
   return (
@@ -54,7 +66,7 @@ const Header = ({ onClick }: HeaderProps) => {
             height={30}
             width={30}
             style={{ aspectRatio: 1 / 1, borderRadius: "50%" }}
-            onClick={onOpen}
+            onClick={onResumeOpen}
           />
         </Tooltip>
       </HStack>
@@ -71,6 +83,13 @@ const Header = ({ onClick }: HeaderProps) => {
               />
             </Flex>
           </Tooltip>
+
+          <Tooltip label="Contact" aria-label="Contact Us Tooltip">
+            <Link onClick={onContactOpen}>
+              <FiMail size={20} />
+            </Link>
+          </Tooltip>
+
           <Tooltip label="Github">
             <Link
               href="https://github.com/webdev-im/"
@@ -95,7 +114,7 @@ const Header = ({ onClick }: HeaderProps) => {
         {/* theme changer  */}
         <UseChangeTheme />
       </HStack>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isResumeOpen} onClose={onResumeClose}>
         <ModalOverlay />
         <ModalContent
           bg={colorMode === "light" ? "rgb(40, 40, 40) " : "rgb(70, 70, 70)"}
@@ -113,7 +132,7 @@ const Header = ({ onClick }: HeaderProps) => {
             <Button
               colorScheme="blue"
               mr={3}
-              onClick={onClose}
+              onClick={onResumeClose}
               variant="outline"
             >
               Close
@@ -123,7 +142,7 @@ const Header = ({ onClick }: HeaderProps) => {
               mr={3}
               onClick={() => {
                 {
-                  handleClick(), onClose;
+                  handleClick(), onResumeClose;
                 }
               }}
             >
@@ -132,6 +151,7 @@ const Header = ({ onClick }: HeaderProps) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <ContactForm isOpen={isContactOpen} onClose={onContactClose} />
     </HStack>
   );
 };
