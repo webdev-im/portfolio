@@ -72,7 +72,7 @@ const Header = ({ onClick }: HeaderProps) => {
       </HStack>
       <HStack spacing={7} justify="space-between">
         {/* ssocial media */}
-        <HStack spacing={[3, 5]}>
+        <HStack spacing={[3, 3]}>
           <Tooltip label="Examples">
             <Flex>
               <FiGlobe
