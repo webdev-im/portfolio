@@ -1,8 +1,11 @@
+"use client";
+
 import "./globals.css";
 
 import { CSSPlugin } from "gsap/CSSPlugin";
 import { Inter } from "next/font/google";
 import { gsap } from "gsap";
+import { ChakraProvider } from "@chakra-ui/react";
 
 gsap.registerPlugin(CSSPlugin);
 
@@ -16,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
-        {children}
+        <ChakraProvider>{children}</ChakraProvider>
       </body>
     </html>
   );

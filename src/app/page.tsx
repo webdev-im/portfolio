@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   Button,
   ChakraProvider,
   Drawer,
@@ -18,20 +19,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
+import BaseLayout from "@/components/Layout/BaseLayout";
 import BigTextSlides from "@/components/Layout/BigTextSlides";
-import Footer from "@/components/Layout/Footer";
-import Header from "@/components/Layout/Header";
 import Image from "next/image";
 import { NextSeo } from "next-seo";
-import React from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Container(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [title, setTitle] = React.useState("");
+  const [title, setTitle] = useState("");
   const { colorMode } = useColorMode();
-
+  // Animation control
+  const [isPaused, setIsPaused] = useState(false);
   return (
     <>
       <NextSeo
@@ -39,14 +40,8 @@ export default function Container(props: any) {
         description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
       />
 
-      {/* metatags */}
-
-      {/* Theme provider */}
-      <ChakraProvider>
-        <VStack minH="100vh" spacing={0} justifyContent="space-between">
-          {/* Header */}
-          <Header onClick={onOpen} />
-
+      <BaseLayout>
+        <VStack spacing={0} justifyContent="space-between">
           {/* Drawer */}
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
             <DrawerOverlay />
@@ -126,13 +121,30 @@ export default function Container(props: any) {
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
-          <VStack mb={{ base: "2rem", md: "0" }}>
+          <VStack
+            mb={{ base: "2rem", md: "0" }}
+            className="shape"
+            bg="gray"
+            border="5px solid #fc2803"
+            p={["2.2rem", "5rem"]}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            style={{
+              animation: "morph 8s ease-in-out infinite",
+              animationPlayState: isPaused ? "paused" : "running", // Dynamic control
+              borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+              transition: "all 1s ease-in-out",
+            }}
+          >
             <Heading
               fontSize={{ base: "xs", md: "lg" }}
               transition="0.3s"
               mt={{ base: "1rem", md: "0" }}
             >
-              I specialize in these technologies
+              <Text as="span" color="#415bb2">
+                I
+              </Text>{" "}
+              specialize in these technologies
             </Heading>
             <BigTextSlides
               slides={[
@@ -144,11 +156,10 @@ export default function Container(props: any) {
               ]}
             />
           </VStack>
-
-          <Footer />
         </VStack>
-        <div className="bg"></div>
-      </ChakraProvider>
+      </BaseLayout>
+      <div className="bg"></div>
+      <Box className="shape" bg="red"></Box>
     </>
   );
 }

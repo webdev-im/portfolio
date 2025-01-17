@@ -52,6 +52,7 @@ const Header = ({ onClick }: HeaderProps) => {
   return (
     <HStack
       minW={isMobile ? "full" : "40%"}
+      maxW={isMobile ? "full" : "40%"}
       justify="space-between"
       minH="4rem"
       px={{ base: "1rem", md: "0" }}
