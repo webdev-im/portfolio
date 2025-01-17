@@ -3,9 +3,9 @@
 import "./globals.css";
 
 import { CSSPlugin } from "gsap/CSSPlugin";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { gsap } from "gsap";
-import { ChakraProvider } from "@chakra-ui/react";
 
 gsap.registerPlugin(CSSPlugin);
 
@@ -24,14 +24,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-export const metadata = {
-  title: "WebDev I'm",
-  description: "Visual Design / Web Design / UI-UX / Front-End Developer",
-  image: "favicon.ico",
-  openGraph: {
-    title: "WebDev I'm",
-    description: "Visual Design / Web Design / UI-UX / Front-End Developer",
-    image: "favicon.ico",
-  },
-};
