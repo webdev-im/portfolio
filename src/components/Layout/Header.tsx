@@ -1,4 +1,4 @@
-import { FiImage, FiMail, FiLinkedin } from "react-icons/fi";
+import { FiImage, FiLinkedin, FiMail } from "react-icons/fi";
 import {
   Flex,
   HStack,
@@ -7,7 +7,7 @@ import {
   useBreakpointValue,
   useColorMode,
 } from "@chakra-ui/react";
-import ContactForm from "./ContactForm";
+
 import Image from "next/image";
 import React from "react";
 import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
@@ -20,7 +20,7 @@ interface HeaderProps {
 
 const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { colorMode } = useColorMode();
+
 
   return (
     <HStack

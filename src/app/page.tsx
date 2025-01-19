@@ -3,24 +3,17 @@
 import {
   Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   Grid,
   HStack,
   Heading,
   Image,
   Link,
+  Stack,
   Text,
   VStack,
-  useColorMode,
-  Stack,
-  useDisclosure,
+  useBreakpointValue,
+  useDisclosure
 } from "@chakra-ui/react";
 
 import BigTextSlides from "@/components/Layout/BigTextSlides";
@@ -28,7 +21,7 @@ import ContactForm from "@/components/Layout/ContactForm";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
 import { NextSeo } from "next-seo";
-import { motion } from "framer-motion";
+
 import { useState } from "react";
 
 // Regular item (non-clickable)
@@ -59,21 +52,17 @@ const isLinkedItem = (item: SectionItem): item is LinkedItem => {
 };
 
 export default function Page() {
-  const {
-    isOpen: isDrawerOpen,
-    onOpen: onDrawerOpen,
-    onClose: onDrawerClose,
-  } = useDisclosure();
+
   const {
     isOpen: isContactOpen,
     onOpen: onContactOpen,
     onClose: onContactClose,
   } = useDisclosure();
-  const [title, setTitle] = useState("");
-  const { colorMode } = useColorMode();
+
   // Animation control
   const [isPaused, setIsPaused] = useState(false);
   const [page, setPage] = useState<"home" | "about">("home");
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const sections: Section[] = [
     {
@@ -99,21 +88,21 @@ export default function Page() {
         },
         {
           src: "/images/imageSix.png",
-          alt: "Product 2",
-          text: "Tech Innovations",
-          link: "https://example.com/tech",
+          alt: "Renata Valcik",
+          text: "Renata Valcik",
+          link: "https://renatavalcik.com",
         },
         {
           src: "/images/imageSeven.png",
-          alt: "Product 3",
-          text: "Creative Designs",
-          link: "https://example.com/designs",
+          alt: "Animatrix",
+          text: "Animatrix",
+          link: "https://animatrix.lt",
         },
         {
           src: "/images/imageEight.png",
-          alt: "Product 4",
-          text: "Future Solutions",
-          link: "https://example.com/future",
+          alt: "Something for Windy",
+          text: "Something for Windy",
+          link: "https://somethingforwindy.netlify.app",
         },
       ],
       gridColumns: { base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" },
@@ -169,7 +158,7 @@ export default function Page() {
           </VStack>
         )}
         {page === "about" && (
-          <Box as="main" py={8} zIndex='4'  maxW={['100%', '60%']} pt={['','5rem']}>
+          <Box as="main" py={8} zIndex='4'  maxW={['100%', '60%']} pt={['','10rem']} >
             {/* Hero Section */}
             <Flex direction="column" align="start"  mb={12} >
               <Text size={['xl', 'lg']} mb={['2','4']} fontWeight='500'>
@@ -181,9 +170,9 @@ export default function Page() {
                   Digital Experiences!
                 </Text>
               </Heading>
-              <Stack direction={isMobile? = 'column' : 'row'}>
+              <Stack justify='space-between' direction={isMobile? 'column' : 'row-reverse'} mt={['', '2rem']} minW={['', '100%']}>
               <Text fontSize={['md', 'lg']} mb={6} maxW="600px" fontWeight='300'>
-                My mission is simple: to make your digital presence seamless,s
+                My mission is simple: to make your digital presence seamless,
                 engaging, and impactful. Let’s create something extraordinary
                 together!
               </Text>
@@ -192,16 +181,20 @@ export default function Page() {
               </Button>
               </Stack>
             </Flex>
-            <Box px={{ base: 4, md: 10, lg: 20 }} /* Add horizontal padding for desktop */>
+           <VStack minW='full'> 
+            <div className="mouse"></div>
+              </VStack>
+            <Box mt={['', '7rem']}>
       {sections.map((section, sectionIndex) => (
-        <Box key={sectionIndex} mb={12}>
+        <Box key={sectionIndex} mb={12} >
           {/* Section Heading */}
-          <Heading as="h3" size="md" mb={4}>
-            {section.heading}
+          <Heading as="h3" size={['md', 'xl']} mb={4}>
+            {section.heading.toUpperCase()}
           </Heading>
 
           {/* Render Grid */}
           <Grid
+          my={['','4rem']}
             templateColumns={{
               base: "1fr", // Single column for small screens
               md: "repeat(2, 1fr)", // Two columns for medium screens
