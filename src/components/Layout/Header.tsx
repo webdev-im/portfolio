@@ -1,21 +1,13 @@
+import { FiGithub, FiImage, FiLinkedin, FiMail } from "react-icons/fi";
 import {
-  Button,
-  Flex,
-  HStack,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Tooltip,
-  useBreakpointValue,
-  useColorMode,
-  useDisclosure,
+Flex,
+HStack,
+Link,
+Tooltip,
+useBreakpointValue,
+useColorMode,
+useDisclosure,
 } from "@chakra-ui/react";
-import { FiGithub, FiGlobe, FiLinkedin, FiMail } from "react-icons/fi";
 
 import ContactForm from "./ContactForm";
 import Image from "next/image";
@@ -24,22 +16,14 @@ import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
 import { motion } from "framer-motion";
 import { saveAs } from "file-saver";
 
-const handleClick = () => {
-  let url = "/resume.png";
-  saveAs(url, "resume");
-};
-
 interface HeaderProps {
-  onClick?: () => void;
+  page: "home" | "about";
+  setPage: (page: "home" | "about") => void;
 }
 
-const Header = ({ onClick }: HeaderProps) => {
+
+const Header = ({ page, setPage }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const {
-    isOpen: isResumeOpen,
-    onOpen: onResumeOpen,
-    onClose: onResumeClose,
-  } = useDisclosure();
 
   const {
     isOpen: isContactOpen,
@@ -59,7 +43,7 @@ const Header = ({ onClick }: HeaderProps) => {
       zIndex={2}
     >
       <HStack cursor="pointer">
-        <Tooltip label="About me">
+        <Tooltip label={page==='home'? '' : 'Home'}>
           <Image
             src="/avatar.png"
             alt="avatar"
@@ -67,27 +51,26 @@ const Header = ({ onClick }: HeaderProps) => {
             height={30}
             width={30}
             style={{ aspectRatio: 1 / 1, borderRadius: "50%" }}
-            onClick={onResumeOpen}
+            onClick={() => setPage("home")}
           />
         </Tooltip>
       </HStack>
       <HStack spacing={7} justify="space-between">
-        {/* ssocial media */}
+        {/* Social Media */}
         <HStack spacing={[3, 3]}>
-          <Tooltip label="Examples">
+          <Tooltip label="About">
             <Flex>
-              <FiGlobe
+              <FiImage
                 fontSize="22px"
                 className="shaking"
-                onClick={onClick}
+                onClick={() => setPage("about")}
                 cursor="pointer"
               />
             </Flex>
           </Tooltip>
-
           <Tooltip label="Contact" aria-label="Contact Us Tooltip">
             <Link onClick={onContactOpen}>
-              <FiMail size={20} />
+              <FiMail fontSize="22px" className="shaking" />
             </Link>
           </Tooltip>
 
@@ -112,46 +95,10 @@ const Header = ({ onClick }: HeaderProps) => {
             </Link>
           </Tooltip>
         </HStack>
-        {/* theme changer  */}
+        {/* Theme Changer */}
         <UseChangeTheme />
       </HStack>
-      <Modal isOpen={isResumeOpen} onClose={onResumeClose}>
-        <ModalOverlay />
-        <ModalContent
-          bg={colorMode === "light" ? "rgb(40, 40, 40) " : "rgb(70, 70, 70)"}
-          color={colorMode === "light" ? "black" : "white"}
-        >
-          <ModalHeader></ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pt={5}>
-            <motion.div animate={{ y: 5 }} transition={{ delay: 1 }}>
-              <Image src="/resume.png" alt="resume" width={800} height={800} />
-            </motion.div>
-          </ModalBody>
-
-          <ModalFooter mr={"-10px"}>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={onResumeClose}
-              variant="outline"
-            >
-              Close
-            </Button>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={() => {
-                {
-                  handleClick(), onResumeClose;
-                }
-              }}
-            >
-              Download
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+   
       <ContactForm isOpen={isContactOpen} onClose={onContactClose} />
     </HStack>
   );

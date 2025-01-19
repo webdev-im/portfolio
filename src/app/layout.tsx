@@ -1,7 +1,4 @@
-"use client";
-
 import "./globals.css";
-
 import { CSSPlugin } from "gsap/CSSPlugin";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
@@ -9,8 +6,16 @@ import { gsap } from "gsap";
 
 gsap.registerPlugin(CSSPlugin);
 
-// If loading a variable font, you don't need to specify the font weight
+// Load Google Font
 const inter = Inter({ subsets: ["latin"] });
+
+// Add metadata for the favicon
+export const metadata = {
+  icons: {
+    icon: "/favicon.ico", // Path to the favicon in the public folder
+  },
+};
+
 export default function RootLayout({
   children,
 }: {

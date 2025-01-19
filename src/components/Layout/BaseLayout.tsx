@@ -5,12 +5,14 @@ import { VStack } from "@chakra-ui/react";
 
 interface BaseLayoutProps {
   children: React.ReactNode;
+  page: "home" | "about";
+  setPage: (page: "home" | "about") => void;
 }
 
-const BaseLayout = ({ children }: BaseLayoutProps) => {
+const BaseLayout = ({ children, page, setPage }: BaseLayoutProps) => {
   return (
     <VStack minH="100vh" justify="space-between">
-      <Header />
+      <Header page={page} setPage={setPage} />
       {children}
       <Footer />
     </VStack>
