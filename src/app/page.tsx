@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 
 import BigTextSlides from "@/components/Layout/BigTextSlides";
+import ContactForm from "@/components/Layout/ContactForm";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
 import { NextSeo } from "next-seo";
@@ -57,8 +58,16 @@ const isLinkedItem = (item: SectionItem): item is LinkedItem => {
 };
 
 export default function Page() {
-  const { isOpen, onClose } = useDisclosure();
-
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose,
+  } = useDisclosure();
+  const {
+    isOpen: isContactOpen,
+    onOpen: onContactOpen,
+    onClose: onContactClose,
+  } = useDisclosure();
   const [title, setTitle] = useState("");
   const { colorMode } = useColorMode();
   // Animation control
@@ -116,90 +125,11 @@ export default function Page() {
         title="WebDev I'm"
         description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
       />
-      <VStack minH="100vh" justify="space-between">
-        <Header page={page} setPage={setPage} />
+      <VStack minH="100vh" justify="space-between" zIndex='4' >
+        <Header page={page} setPage={setPage}  onContactOpen={onContactOpen}/>
 
         {page === "home" && (
           <VStack spacing={0} justifyContent="space-between">
-            {/* Drawer */}
-            <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-              <DrawerOverlay />
-              <DrawerContent
-                bg={
-                  colorMode === "light" ? "rgb(40, 40, 40) " : "rgb(70, 70, 70)"
-                }
-                color={colorMode === "light" ? "black" : "white"}
-              >
-                <DrawerCloseButton mt={2} mr={2} />
-                <DrawerHeader>Live projects</DrawerHeader>
-
-                <DrawerBody>
-                  <VStack spacing={4}>
-                    {[
-                      {
-                        title: "Renata Valcik",
-                        string: "renatavalcik",
-                        url: "renatavalcik.com",
-                      },
-                      {
-                        title: "Animatrix",
-                        string: "animatrix",
-                        url: "animatrix.lt",
-                      },
-                      {
-                        title: "Something for Windy",
-                        string: "somethingforwindy",
-                        url: "somethingforwindy.netlify.app",
-                      },
-                      {
-                        title: "Cozy cafe",
-                        string: "cozycafe",
-                        url: "cozy-cafe.netlify.app",
-                      },
-                    ].map((e) => (
-                      <motion.div
-                        key={e.title}
-                        animate={{ y: 20 }}
-                        transition={{ delay: 1 }}
-                      >
-                        <Link
-                          href={`https://${e.url}`}
-                          isExternal
-                          onMouseEnter={() => {
-                            setTitle(e.title);
-                          }}
-                          onMouseLeave={() => {
-                            setTitle("");
-                          }}
-                          style={{ position: "relative" }}
-                        >
-                          <Image
-                            src={`/${e.string}.png`}
-                            alt={e.title}
-                            width={500}
-                            height={400}
-                          />
-                          <Text
-                            position="absolute"
-                            bottom={2}
-                            left={2}
-                            fontWeight="bold"
-                          >
-                            {title === e.title && e.title}
-                          </Text>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </VStack>
-                </DrawerBody>
-
-                <DrawerFooter>
-                  <Button onClick={onClose} colorScheme="blue">
-                    Close
-                  </Button>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
             <VStack
               mb={{ base: "2rem", md: "0" }}
               className="shape"
@@ -238,24 +168,24 @@ export default function Page() {
           </VStack>
         )}
         {page === "about" && (
-          <Box as="main" px={[10, "15rem"]} py={8}>
+          <Box as="main" px={[5, "15rem"]} py={8} zIndex='4' border='2px solid red'>
             {/* Hero Section */}
-            <Flex direction="column" align="center" textAlign="center" mb={12}>
-              <Heading as="h1" size="xl" mb={4}>
+            <Flex direction="column" align="start"  mb={12} >
+              <Text size={['xl', 'lg']} mb={['2','4']} fontWeight='500'>
                 Hi, I am WebDev I’m
-              </Heading>
-              <Heading as="h2" size="lg" fontWeight="bold" mb={4}>
+              </Text>
+              <Heading  fontSize={['5xl', '6xl']} fontWeight="700" mb={['10', '15']}>
                 Your Creative Partner in Crafting Exceptional{" "}
-                <Text as="span" color="gray.500">
+                <Text as="span" color='#415bb2'>
                   Digital Experiences!
                 </Text>
               </Heading>
-              <Text fontSize="lg" mb={6} maxW="600px">
+              <Text fontSize={['md', 'lg']} mb={6} maxW="600px" fontWeight='300'>
                 My mission is simple: to make your digital presence seamless,s
                 engaging, and impactful. Let’s create something extraordinary
                 together!
               </Text>
-              <Button colorScheme="blue" size="lg">
+              <Button colorScheme="blue" size={['md', 'lg']} onClick={onContactOpen}>
                 Let's Talk →
               </Button>
             </Flex>
@@ -354,10 +284,13 @@ export default function Page() {
 
       {page === "home" && (
         <>
-          <div className="bg"></div>
-          <Box className="shape" bg="red"></Box>
+       
+          <Box className="shape" bg="red" zIndex='4'></Box >
         </>
       )}
+       {/* Contact Modal */}
+      <ContactForm isOpen={isContactOpen} onClose={onContactClose} />
+      <div className="bg"></div>
     </>
   );
 }
