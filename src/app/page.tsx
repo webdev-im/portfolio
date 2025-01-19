@@ -19,6 +19,7 @@ import {
   Text,
   VStack,
   useColorMode,
+  Stack,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -168,18 +169,19 @@ export default function Page() {
           </VStack>
         )}
         {page === "about" && (
-          <Box as="main" px={[5, "15rem"]} py={8} zIndex='4' border='2px solid red'>
+          <Box as="main" py={8} zIndex='4'  maxW={['100%', '60%']} pt={['','5rem']}>
             {/* Hero Section */}
             <Flex direction="column" align="start"  mb={12} >
               <Text size={['xl', 'lg']} mb={['2','4']} fontWeight='500'>
                 Hi, I am WebDev I’m
               </Text>
-              <Heading  fontSize={['5xl', '6xl']} fontWeight="700" mb={['10', '15']}>
+              <Heading  fontSize={['5xl', '6rem']} fontWeight="700" mb={['10', '15']} lineHeight={['','6.2rem']}>
                 Your Creative Partner in Crafting Exceptional{" "}
                 <Text as="span" color='#415bb2'>
                   Digital Experiences!
                 </Text>
               </Heading>
+              <Stack direction={isMobile? = 'column' : 'row'}>
               <Text fontSize={['md', 'lg']} mb={6} maxW="600px" fontWeight='300'>
                 My mission is simple: to make your digital presence seamless,s
                 engaging, and impactful. Let’s create something extraordinary
@@ -188,6 +190,7 @@ export default function Page() {
               <Button colorScheme="blue" size={['md', 'lg']} onClick={onContactOpen}>
                 Let's Talk →
               </Button>
+              </Stack>
             </Flex>
             <Box px={{ base: 4, md: 10, lg: 20 }} /* Add horizontal padding for desktop */>
       {sections.map((section, sectionIndex) => (

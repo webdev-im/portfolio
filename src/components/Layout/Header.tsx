@@ -24,8 +24,8 @@ const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
 
   return (
     <HStack
-      minW={isMobile ? "full" : "50%"}
-      maxW={isMobile ? "full" : "50%"}
+      minW={isMobile ? "full" : "60%"}
+      maxW={isMobile ? "full" : "60%"}
       justify="space-between"
       minH="4rem"
       px={{ base: "1rem", md: "0" }}
