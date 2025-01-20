@@ -37,8 +37,8 @@ const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
             src="/avatar.png"
             alt="avatar"
             className="shaking"
-            height={30}
-            width={30}
+            height={50}
+            width={50}
             style={{ aspectRatio: 1 / 1, borderRadius: "50%" }}
             onClick={() => setPage("home")}
           />
