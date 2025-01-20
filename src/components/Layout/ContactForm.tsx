@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Divider,
   FormControl,
@@ -18,10 +17,8 @@ import {
   Stack,
   Text,
   Textarea,
-  Tooltip,
   VStack,
   useColorMode,
-  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

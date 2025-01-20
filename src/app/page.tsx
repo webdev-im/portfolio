@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Box,
   Button,
@@ -21,10 +22,9 @@ import ContactForm from "@/components/Layout/ContactForm";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
 import { NextSeo } from "next-seo";
+import { useState } from "react"
 
-import { useState } from "react";
-
-// Regular item (non-clickable)
+/// Regular item (non-clickable)
 interface RegularItem {
   src: string;
   alt: string;
@@ -50,19 +50,6 @@ interface Section {
 const isLinkedItem = (item: SectionItem): item is LinkedItem => {
   return (item as LinkedItem).link !== undefined;
 };
-
-export default function Page() {
-
-  const {
-    isOpen: isContactOpen,
-    onOpen: onContactOpen,
-    onClose: onContactClose,
-  } = useDisclosure();
-
-  // Animation control
-  const [isPaused, setIsPaused] = useState(false);
-  const [page, setPage] = useState<"home" | "about">("home");
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const sections: Section[] = [
     {
@@ -109,6 +96,39 @@ export default function Page() {
     },
   ];
 
+export default function Page() {
+
+  const {
+    isOpen: isContactOpen,
+    onOpen: onContactOpen,
+    onClose: onContactClose,
+  } = useDisclosure();
+
+  // Animation control
+  const [isPaused, setIsPaused] = useState(false);
+  const [page, setPage] = useState<"home" | "about">("home");
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  // State for each section's items
+  const [sectionItems, setSectionItems] = useState(
+    sections.map((section) => section.items)
+  );
+
+  const handleItemClick = (sectionIndex: number, itemIndex: number) => {
+    const clickedItem = sectionItems[sectionIndex][itemIndex];
+    const updatedItems = [
+      clickedItem,
+      ...sectionItems[sectionIndex].filter((_, i) => i !== itemIndex),
+    ];
+    setSectionItems((prev) =>
+      prev.map((items, index) =>
+        index === sectionIndex ? updatedItems : items
+      )
+    );
+  };
+
+
+
   return (
     <>
       <NextSeo
@@ -124,7 +144,7 @@ export default function Page() {
               mb={{ base: "2rem", md: "0" }}
               className="shape"
               bg="gray"
-              border="5px solid #fc2803"
+              border="5px solidrgb(3, 123, 252)"
               p={["2.2rem", "5rem"]}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
@@ -194,81 +214,66 @@ export default function Page() {
 
           {/* Render Grid */}
           <Grid
-          my={['','4rem']}
-            templateColumns={{
-              base: "1fr", // Single column for small screens
-              md: "repeat(2, 1fr)", // Two columns for medium screens
-              lg: "repeat(4, 1fr)", // Four columns for large screens
-            }}
-            gap={6}
-          >
-            {section.items.map((item, itemIndex) =>
-              isLinkedItem(item) ? (
-                // Linked Item (Clickable)
-                <Link
-                  key={itemIndex}
-                  href={item.link}
-                  isExternal
-                  _hover={{ textDecoration: "none" }}
-                  style={{
-                    gridColumn: itemIndex === 0 || itemIndex === 4 ? "1 / -1" : undefined, // Span full width for 1st and 5th items
-                  }}
-                >
-                  <Box
-                    position="relative"
-                    overflow="hidden"
-                    borderRadius="md"
-                    cursor="pointer"
+              my={["", "4rem"]}
+              templateColumns={{
+                base: "1fr",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(4, 1fr)",
+              }}
+              gap={6}
+            >
+              <AnimatePresence>
+                {sectionItems[sectionIndex].map((item, itemIndex) => (
+                  <motion.div
+                    key={itemIndex}
+                    layout
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.5 }}
+                    onClick={() => handleItemClick(sectionIndex, itemIndex)}
+                    style={{
+                      gridColumn: itemIndex === 0 ? "1 / -1" : undefined,
+                      cursor: "pointer",
+                    }}
                   >
-                    {/* Image */}
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      width="100%"
-                      height="auto"
-                      filter="brightness(0.8)" // Dim the image
-                    />
-                    {/* Text Overlay */}
-                    <HStack
-                      position="absolute"
-                      bottom="0"
-                      left="0"
-                      bg="blue.100"
-                      borderRadius="0 1.5rem 1.5rem 0"
-                      p={4}
-                      boxShadow="lg"
-                    >
-                      <Text fontSize="lg" fontWeight="bold" color="black" lineHeight="1.2">
-                        {item.text}
-                      </Text>
+                    <HStack>
+                      <Box position="relative" overflow="hidden" borderRadius="md">
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          width="100%"
+                          height="auto"
+                          filter="brightness(0.8)"
+                        />
+                        {isLinkedItem(item) && (
+                          <Link href={item.link} isExternal>
+                            <HStack
+                              position="absolute"
+                              bottom="0"
+                              left="0"
+                              bg="blue.100"
+                              borderRadius="0 1.5rem 1.5rem 0"
+                              p={4}
+                              boxShadow="lg"
+                            >
+                              <Text
+                                fontSize="lg"
+                                fontWeight="bold"
+                                color="black"
+                                lineHeight="1.2"
+                              >
+                                {item.text}
+                              </Text>
+                            </HStack>
+                          </Link>
+                        )}
+                      </Box>
                     </HStack>
-                  </Box>
-                </Link>
-              ) : (
-                // Regular Item (Non-clickable)
-                <Box
-                  key={itemIndex}
-                  style={{
-                    gridColumn: itemIndex === 0 || itemIndex === 4 ? "1 / -1" : undefined, // Span full width for 1st and 5th items
-                  }}
-                  w={
-                    sectionIndex === 1 && itemIndex > 4 // For bottom 3 images of the second section
-                      ? "30%" // Make smaller images 30% width
-                      : "auto"
-                  }
-                  mx="auto" // Center the smaller images
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    borderRadius="md"
-                    width="100%"
-                    height="auto"
-                  />
-                </Box>
-              )
-            )}
-          </Grid>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </Grid>
         </Box>
       ))}
     </Box>
