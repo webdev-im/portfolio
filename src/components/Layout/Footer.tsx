@@ -13,7 +13,7 @@ const Footer = () => {
       <HStack spacing={2}>
         <Text>Made with </Text>
         <Text>
-          <GiSelfLove color="#415bb2" />
+          <GiSelfLove color="brand.500" />
         </Text>
         <Text>by WebDev I'm</Text>
         <Text>{new Date().getFullYear()}</Text>

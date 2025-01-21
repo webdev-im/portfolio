@@ -4,8 +4,7 @@ import {
   HStack,
   Link,
   Tooltip,
-  useBreakpointValue,
-  useColorMode,
+  useBreakpointValue
 } from "@chakra-ui/react";
 
 import Image from "next/image";
@@ -21,7 +20,7 @@ interface HeaderProps {
 const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-
+  
   return (
     <HStack
       minW={isMobile ? "full" : "60%"}

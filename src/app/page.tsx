@@ -5,24 +5,22 @@ import {
   Button,
   Flex,
   Grid,
-  HStack,
   Heading,
-  Image,
-  Link,
   Stack,
   Text,
   VStack,
   useBreakpointValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import BigTextSlides from "@/components/Layout/BigTextSlides";
+import { Card } from "@/components/Layout/Card";
 import ContactForm from "@/components/Layout/ContactForm";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
+import MultilayerButton from './../components/Layout/action/StyledButton';
 import { NextSeo } from "next-seo";
 import { useState } from "react";
-import { Card } from "@/components/Layout/Card";
 
 // Regular item (non-clickable)
 interface RegularItem {
@@ -32,8 +30,8 @@ interface RegularItem {
 
 // Linked item (clickable with text and a link)
 interface LinkedItem extends RegularItem {
-  text: string;
-  link: string;
+  text?: string;
+  link?: string;
 }
 
 // Union type for all items
@@ -46,7 +44,7 @@ interface Section {
 }
 
 const isLinkedItem = (item: SectionItem): item is LinkedItem => {
-  return (item as LinkedItem).link !== undefined;
+  return "text" in item && "link" in item;
 };
 
 const sections: Section[] = [
@@ -91,7 +89,6 @@ const sections: Section[] = [
 ];
 
 export default function Page() {
-
   const {
     isOpen: isContactOpen,
     onOpen: onContactOpen,
@@ -101,17 +98,15 @@ export default function Page() {
   // Animation control
   const [isPaused, setIsPaused] = useState(false);
   const [page, setPage] = useState<"home" | "about">("home");
-  const isMobile = useBreakpointValue({base: true, md: false})
- 
-  const [sectionsTopCard, setSectionsTopCard] = useState(
-    sections.map((section) => section.items[0])
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const [sectionsTopCard, setSectionsTopCard] = useState<SectionItem[]>(
+    sections.map((section) => section.items[0] || { src: "", alt: "" })
   );
   const [sectionsBottomCards, setSectionsBottomCards] = useState(
     sections.map((section) => section.items.slice(1))
   );
-  const [flippedStates, setFlippedStates] = useState(
-    sections.map(() => false)
-  );
+  const [flippedStates, setFlippedStates] = useState(sections.map(() => false));
 
   const toggleFlip = (sectionIndex: number, cardIndex?: number) => {
     setFlippedStates((prev) =>
@@ -145,16 +140,28 @@ export default function Page() {
     );
   };
 
+  const isLinkedItem = (item: SectionItem): item is LinkedItem => {
+    return "text" in item && "link" in item;
+  };
+
+  const getTextFromItem = (item: SectionItem): string | undefined => {
+    if ("text" in item) {
+      return item.text;
+    }
+    return undefined;
+  };
+
+  const getLinkedItemProps = (item: SectionItem) => {
+    if ("text" in item && "link" in item) {
+      return { text: item.text || "Default Text", link: item.link || "#" };
+    }
+    return { text: undefined, link: undefined };
+  };
 
   return (
     <>
-      <NextSeo
-        title="WebDev I'm"
-        description="WebDev I'm, UI/UX Designer, Frontend Developer, and a blogger."
-      />
-      <VStack minH="100vh" justify="space-between" zIndex='4' >
-        <Header page={page} setPage={setPage}  onContactOpen={onContactOpen}/>
-
+      <VStack minH="100vh" justify="space-between" zIndex="4">
+        <Header page={page} setPage={setPage} onContactOpen={onContactOpen} />
         {page === "home" && (
           <VStack spacing={0} justifyContent="space-between">
             <VStack
@@ -176,7 +183,7 @@ export default function Page() {
                 transition="0.3s"
                 mt={{ base: "1rem", md: "0" }}
               >
-                <Text as="span" color="#415bb2">
+                <Text as="span" color="brand.500">
                   I
                 </Text>{" "}
                 specialize in these technologies
@@ -194,108 +201,118 @@ export default function Page() {
           </VStack>
         )}
         {page === "about" && (
-          <Box as="main" py={8} zIndex='4'  maxW={['100%', '60%']} pt={['','10rem']} >
+          <Box
+            as="main"
+          
+            zIndex="4"
+            maxW={["100%", "60%"]}
+     
+          >
             {/* Hero Section */}
-            <Flex direction="column" align="start"  mb={12} >
-              <Text size={['xl', 'lg']} mb={['2','4']} fontWeight='500'>
+            <VStack  pt={["", "10rem"]} minH='90vh' justify='space-between'>
+              <Flex></Flex>
+              <Flex direction="column" align="start" mb={12} px={{ base: "1rem", md: "0" }}>
+              <Text size={["xl", "lg"]} mb={["2", "4"]} fontWeight="500">
                 Hi, I am WebDev I’m
               </Text>
-              <Heading  fontSize={['5xl', '6rem']} fontWeight="700" mb={['10', '15']} lineHeight={['','6.2rem']}>
+              <Heading
+                fontSize={["5xl", "6rem"]}
+                fontWeight="700"
+                mb={["10", "15"]}
+                lineHeight={["3.4rem", "6.2rem"]}
+              >
                 Your Creative Partner in Crafting Exceptional{" "}
-                <Text as="span" color='#415bb2'>
+                <Text as="span" color="#415bb2">
                   Digital Experiences!
                 </Text>
               </Heading>
-              <Stack justify='space-between' direction={isMobile? 'column' : 'row-reverse'} mt={['', '2rem']} minW={['', '100%']}>
-              <Text fontSize={['md', 'lg']} mb={6} maxW="600px" fontWeight='300'>
-                My mission is simple: to make your digital presence seamless,
-                engaging, and impactful. Let’s create something extraordinary
-                together!
-              </Text>
-              <Button colorScheme="blue" size={['md', 'lg']} onClick={onContactOpen}>
-                Let's Talk →
-              </Button>
+              <Stack
+                justify="space-between"
+                direction={isMobile ? "column" : "row-reverse"}
+                mt={["", "2rem"]}
+                minW={["", "100%"]}
+              >
+                <Text
+                  fontSize={["md", "lg"]}
+                  mb={6}
+                  maxW="600px"
+                  fontWeight="300"
+                >
+                  My mission is simple: to make your digital presence seamless,
+                  engaging, and impactful. Let’s create something extraordinary
+                  together!
+                </Text>
+                <MultilayerButton buttonText={`Let's talk`}    onClick={onContactOpen}></MultilayerButton>
+             
               </Stack>
             </Flex>
-           <VStack minW='full'> 
-            <div className="mouse"></div>
+            <VStack minW="full" mt={['4rem']}>
+              <div className="mouse"></div>
+            </VStack></VStack>
+            <Box mt={["", "7rem"]}>
+              <VStack minH="100vh" justify="space-between" zIndex="4">
+                <Box mt={["", "7rem"]}>
+                  {sections.map((section, sectionIndex) => (
+                    <Box key={sectionIndex} mb={12}>
+                      {/* Section Heading */}
+                      <Heading as="h3" size={["md", "xl"]} mb={4}>
+                        {section.heading.toUpperCase()}
+                      </Heading>
+
+                      {/* Top Card */}
+                      <Card
+                        src={sectionsTopCard[sectionIndex]?.src || ""}
+                        alt={sectionsTopCard[sectionIndex]?.alt || ""}
+                        {...getLinkedItemProps(sectionsTopCard[sectionIndex])}
+                        isBig={!isMobile}
+                        isMobile={isMobile}
+                        onClick={
+                          () =>
+                            isMobile ? toggleFlip(sectionIndex) : undefined // No action for desktop unless clicking bottom cards
+                        }
+                      />
+
+                      {/* Bottom Cards */}
+                      <Grid
+                        templateColumns={{
+                          base: "repeat(1, 1fr)", // Single column on small screens
+                          md: "repeat(3, 1fr)", // Three columns on medium and larger screens
+                        }}
+                        gap={4}
+                        mt={4}
+                      >
+                        {sectionsBottomCards[sectionIndex].map(
+                          (item, itemIndex) => (
+                            <Card
+                              key={itemIndex}
+                              src={item.src}
+                              alt={item.alt}
+                              text={isLinkedItem(item) ? item.text : undefined}
+                              link={isLinkedItem(item) ? item.link : undefined}
+                              isBig={false}
+                              isMobile={isMobile}
+                              onClick={() =>
+                                handleCardClick(sectionIndex, itemIndex)
+                              }
+                            />
+                          )
+                        )}
+                      </Grid>
+                    </Box>
+                  ))}
+                </Box>
               </VStack>
-            <Box mt={['', '7rem']}>
-     
-            <VStack minH="100vh" justify="space-between" zIndex="4">
-        <Box mt={["", "7rem"]}>
-          {sections.map((section, sectionIndex) => (
-            <Box key={sectionIndex} mb={12}>
-              {/* Section Heading */}
-              <Heading as="h3" size={["md", "xl"]} mb={4}>
-                {section.heading.toUpperCase()}
-              </Heading>
-
-              {/* Top Card */}
-              <Card
-  src={sectionsTopCard[sectionIndex].src}
-  alt={sectionsTopCard[sectionIndex].alt}
-  text={
-    isLinkedItem(sectionsTopCard[sectionIndex])
-      ? sectionsTopCard[sectionIndex].text
-      : undefined
-  }
-  link={
-    isLinkedItem(sectionsTopCard[sectionIndex])
-      ? sectionsTopCard[sectionIndex].link
-      : undefined
-  }
-  isBig={!isMobile}
-  isMobile={isMobile}
-  onClick={() =>
-    isMobile
-      ? toggleFlip(sectionIndex)
-      : undefined // No action for desktop unless clicking bottom cards
-  }
-/>
-
-              {/* Bottom Cards */}
-              <Grid
-                templateColumns={{
-                  base: "repeat(1, 1fr)", // Single column on small screens
-                  md: "repeat(3, 1fr)", // Three columns on medium and larger screens
-                }}
-                gap={4}
-                mt={4}
-              >
-           {sectionsBottomCards[sectionIndex].map((item, itemIndex) => (
-  <Card
-    key={itemIndex}
-    src={item.src}
-    alt={item.alt}
-    text={isLinkedItem(item) ? item.text : undefined}
-    link={isLinkedItem(item) ? item.link : undefined}
-    isBig={false}
-    isMobile={isMobile}
-    onClick={() => handleCardClick(sectionIndex, itemIndex)}
-  />
-))}
-
-              </Grid>
             </Box>
-          ))}
-        </Box>
-      </VStack>
-  
-    </Box>
           </Box>
         )}
-
         <Footer />
       </VStack>
-
       {page === "home" && (
         <>
-       
-          <Box className="shape" bg="red" zIndex='4'></Box >
+          <Box className="shape" bg="red" zIndex="4"></Box>
         </>
       )}
-       {/* Contact Modal */}
+      {/* Contact Modal */}
       <ContactForm isOpen={isContactOpen} onClose={onContactClose} />
       <div className="bg"></div>
     </>
