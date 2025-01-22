@@ -25,6 +25,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { FiMail } from "react-icons/fi";
 import emailjs from "emailjs-com";
+import MultilayerButton from "./action/StyledButton";
 
 interface ContactFormData {
   name: string;
@@ -178,17 +179,23 @@ const ContactForm = ({
         <ModalFooter>
           <VStack minW="full" spacing={4}>
             <HStack spacing={4}>
-              <Button
-                colorScheme="blue"
-                isLoading={isSubmitting}
-                isDisabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Submit
-              </Button>
-              <Button onClick={onClose} variant="ghost">
-                Cancel
-              </Button>
+            <MultilayerButton
+      size="md"
+        buttonText="Submit"
+        noIcon
+        onClick={handleSubmit(onSubmit)}
+        isDisabled={!isValid || isSubmitting}
+     
+      />
+       <MultilayerButton
+      size="md"
+      noIcon
+        buttonText="Cancel"
+        onClick={onClose}
+        isDisabled={!isValid || isSubmitting}
+     variant="outline"
+      />
+            
             </HStack>
             <Divider borderColor="gray.400" my={10} />
             <HStack spacing={2} fontWeight={200}>

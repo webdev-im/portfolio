@@ -1,8 +1,9 @@
-import { HStack, Text } from "@chakra-ui/react";
+import { HStack, Text, useTheme } from "@chakra-ui/react";
 
 import { GiSelfLove } from "react-icons/gi";
 
 const Footer = () => {
+  const theme = useTheme()
   return (
     <HStack
       minW="100%"
@@ -13,7 +14,7 @@ const Footer = () => {
       <HStack spacing={2}>
         <Text>Made with </Text>
         <Text>
-          <GiSelfLove color="brand.500" />
+          <GiSelfLove color={theme.colors?.brand?.[500] || "#6c87dc"} />
         </Text>
         <Text>by WebDev I'm</Text>
         <Text>{new Date().getFullYear()}</Text>

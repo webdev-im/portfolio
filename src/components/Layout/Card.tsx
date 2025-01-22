@@ -1,5 +1,5 @@
-import { Box, Image, Link, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import { Box, Link, Text, VStack } from "@chakra-ui/react";
+import React, { useState } from "react";
 
 interface CardProps {
   src: string;
@@ -8,31 +8,48 @@ interface CardProps {
   link?: string;
   isBig?: boolean;
   isMobile?: boolean;
-  onClick?: () => void; // Optional onClick prop
+  onClick?: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ src, alt, text, link, isBig, isMobile, onClick }) => {
+export const Card: React.FC<CardProps> = ({
+  src,
+  alt,
+  text,
+  link,
+  isBig,
+  isMobile,
+  onClick,
+}) => {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isBig || isMobile) {
+      setFlipped(!flipped);
+    }
+  };
+
   return (
     <Box
       w="100%"
       position="relative"
       borderRadius="md"
-      overflow="hidden"
+      overflow="visible"
       boxShadow="md"
-      cursor={onClick ? "pointer" : "default"} // Cursor pointer if onClick is provided
-      onClick={onClick} // Attach onClick if provided
+      cursor="pointer"
       sx={{
-        perspective: isBig ? "1000px" : "unset", // Enable perspective for big cards
+        perspective: "1200px",
       }}
+      onClick={isMobile || isBig ? handleFlip : onClick}
     >
-      {/* Aspect Ratio Box for 16:9 */}
       <Box
         position="relative"
-        pb="56.25%" // 16:9 aspect ratio
+        pb="56.25%" // Maintain aspect ratio
         w="100%"
         sx={{
-          transformStyle: isBig ? "preserve-3d" : "unset",
-          transition: isBig ? "transform 0.6s" : "unset",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.6s",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
         {/* Front Side */}
@@ -45,13 +62,14 @@ export const Card: React.FC<CardProps> = ({ src, alt, text, link, isBig, isMobil
           backgroundImage={`url(${src})`}
           backgroundSize="cover"
           backgroundPosition="center"
+          borderRadius="md"
           sx={{
             backfaceVisibility: "hidden",
           }}
         />
 
         {/* Back Side */}
-        {isBig && (
+        {isBig || isMobile ? (
           <Box
             position="absolute"
             top="0"
@@ -71,7 +89,7 @@ export const Card: React.FC<CardProps> = ({ src, alt, text, link, isBig, isMobil
           >
             <VStack>
               <Text fontSize="xl" fontWeight="bold">
-                {text || "No Description"}
+                {text || "No Title"}
               </Text>
               {link && (
                 <Link href={link} isExternal fontSize="md" color="blue.500">
@@ -80,7 +98,7 @@ export const Card: React.FC<CardProps> = ({ src, alt, text, link, isBig, isMobil
               )}
             </VStack>
           </Box>
-        )}
+        ) : null}
       </Box>
     </Box>
   );

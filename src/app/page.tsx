@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Button,
   Flex,
   Grid,
   Heading,
@@ -11,6 +10,7 @@ import {
   VStack,
   useBreakpointValue,
   useDisclosure,
+  useTheme
 } from "@chakra-ui/react";
 
 import BigTextSlides from "@/components/Layout/BigTextSlides";
@@ -19,7 +19,6 @@ import ContactForm from "@/components/Layout/ContactForm";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
 import MultilayerButton from './../components/Layout/action/StyledButton';
-import { NextSeo } from "next-seo";
 import { useState } from "react";
 
 // Regular item (non-clickable)
@@ -89,6 +88,8 @@ const sections: Section[] = [
 ];
 
 export default function Page() {
+
+  const theme =useTheme()
   const {
     isOpen: isContactOpen,
     onOpen: onContactOpen,
@@ -144,12 +145,7 @@ export default function Page() {
     return "text" in item && "link" in item;
   };
 
-  const getTextFromItem = (item: SectionItem): string | undefined => {
-    if ("text" in item) {
-      return item.text;
-    }
-    return undefined;
-  };
+
 
   const getLinkedItemProps = (item: SectionItem) => {
     if ("text" in item && "link" in item) {
@@ -171,6 +167,8 @@ export default function Page() {
               p={["2.2rem", "5rem"]}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
+              borderWidth='2px'
+              borderColor={theme.colors?.brand?.[500] || "#6c87dc"}
               style={{
                 animation: "morph 8s ease-in-out infinite",
                 animationPlayState: isPaused ? "paused" : "running", // Dynamic control
@@ -209,9 +207,9 @@ export default function Page() {
      
           >
             {/* Hero Section */}
-            <VStack  pt={["", "10rem"]} minH='90vh' justify='space-between'>
+            <VStack   minH='90vh' justify='space-between'>
               <Flex></Flex>
-              <Flex direction="column" align="start" mb={12} px={{ base: "1rem", md: "0" }}>
+              <Flex direction="column" align="start" px={{ base: "1rem", md: "0" }}  maxW='1200px'>
               <Text size={["xl", "lg"]} mb={["2", "4"]} fontWeight="500">
                 Hi, I am WebDev I’m
               </Text>
@@ -242,7 +240,7 @@ export default function Page() {
                   engaging, and impactful. Let’s create something extraordinary
                   together!
                 </Text>
-                <MultilayerButton buttonText={`Let's talk`}    onClick={onContactOpen}></MultilayerButton>
+                <MultilayerButton buttonText={`Let's talk`}    onClick={onContactOpen} size={isMobile? 'md': 'lg'}></MultilayerButton>
              
               </Stack>
             </Flex>
@@ -250,8 +248,11 @@ export default function Page() {
               <div className="mouse"></div>
             </VStack></VStack>
             <Box mt={["", "7rem"]}>
-              <VStack minH="100vh" justify="space-between" zIndex="4">
-                <Box mt={["", "7rem"]}>
+
+{/* slides */}
+
+              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']}>
+                <Box mt={["", "7rem"]}  minW='100%'>
                   {sections.map((section, sectionIndex) => (
                     <Box key={sectionIndex} mb={12}>
                       {/* Section Heading */}
@@ -302,6 +303,9 @@ export default function Page() {
                   ))}
                 </Box>
               </VStack>
+
+
+              {/* slides */}
             </Box>
           </Box>
         )}
