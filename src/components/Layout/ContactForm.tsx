@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   FormControl,
@@ -18,12 +19,11 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
   useColorMode,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-import { FiMail } from "react-icons/fi";
 import emailjs from "emailjs-com";
 import MultilayerButton from "./action/StyledButton";
 
@@ -66,23 +66,37 @@ const ContactForm = ({
         },
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
-      setEmailStatus("success");
-      setTimeout(() => {
-        reset();
-        setEmailStatus(null); // Reset status
-        onClose(); // Close the modal after a delay
-      }, 2000); // 2-second delay
+  
+      toast({
+        title: "Message sent!",
+        description: "Your message was sent successfully. Thank you!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+       
+      });
+  
+      reset();
+      onClose();
     } catch (error) {
-      console.error("EmailJS Error:", error);
-      setEmailStatus("error");
+      toast({
+        title: "Submission failed",
+        description: "Something went wrong. Please try again later.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+       
+      });
     }
   };
+  
 
-  // Reset the emailStatus whenever the modal is closed
   const handleClose = () => {
     setEmailStatus(null);
     onClose();
   };
+
+  const toast = useToast();
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
@@ -143,18 +157,18 @@ const ContactForm = ({
                   type="tel"
                   placeholder="Your Phone Number (e.g., +1234567890)"
                   {...register("phone", {
-                    required: "This field is required",
+                    required: "Phone number is required",
                     pattern: {
-                      value: /^\+?\d+$/, // Regex to allow only '+' and digits
+                      value: /^\+?\d+$/,
                       message: "Invalid phone number",
                     },
                   })}
                   onInput={(e) => {
                     const input = e.target as HTMLInputElement;
                     if (!input.value.startsWith("+")) {
-                      input.value = "+" + input.value.replace(/[^0-9]/g, ""); // Ensure '+' is always at the start
+                      input.value = "+" + input.value.replace(/[^0-9]/g, "");
                     } else {
-                      input.value = input.value.replace(/[^+\d]/g, ""); // Allow only '+' and digits
+                      input.value = input.value.replace(/[^+\d]/g, "");
                     }
                   }}
                 />
@@ -179,30 +193,30 @@ const ContactForm = ({
         <ModalFooter>
           <VStack minW="full" spacing={4}>
             <HStack spacing={4}>
-            <MultilayerButton
-      size="md"
-        buttonText="Submit"
-        noIcon
-        onClick={handleSubmit(onSubmit)}
-        isDisabled={!isValid || isSubmitting}
-     
-      />
-       <MultilayerButton
-      size="md"
-      noIcon
-        buttonText="Cancel"
-        onClick={onClose}
-        isDisabled={!isValid || isSubmitting}
-     variant="outline"
-      />
-            
+              {/* Submit Button */}
+              <MultilayerButton
+                size="md"
+                buttonText="Submit"
+                noIcon
+                onClick={handleSubmit(onSubmit)} // Properly validate and handle submission
+                isDisabled={!isValid || isSubmitting} // Disable until form is valid
+              />
+              {/* Cancel Button */}
+              <MultilayerButton
+                size="md"
+                buttonText="Cancel"
+                noIcon
+                onClick={onClose}
+                isDisabled={isSubmitting}
+                variant="outline"
+              />
             </HStack>
             <Divider borderColor="gray.400" my={10} />
             <HStack spacing={2} fontWeight={200}>
               <Text>Send us an email:</Text>
               <Link
                 href="mailto:wedev.im@gmail.com"
-                color="blue.500"
+                color="#415bb2"
                 fontWeight="bold"
               >
                 wedev.im@gmail.com

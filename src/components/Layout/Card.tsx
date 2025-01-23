@@ -1,4 +1,4 @@
-import { Box, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Link, Text, VStack, useColorMode } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 interface CardProps {
@@ -28,6 +28,8 @@ export const Card: React.FC<CardProps> = ({
       setFlipped(!flipped);
     }
   };
+
+  const {colorMode} = useColorMode()
 
   return (
     <Box
@@ -88,12 +90,18 @@ export const Card: React.FC<CardProps> = ({
             }}
           >
             <VStack>
-              <Text fontSize="xl" fontWeight="bold">
+              <Text fontSize="xl" fontWeight="bold" color="gray">
                 {text || "No Title"}
               </Text>
               {link && (
                 <Link href={link} isExternal fontSize="md" color="blue.500">
-                  Visit Link →
+                 <Box
+       height={['3rem', '5rem']}
+       width={['3rem', '5rem']}
+   ml={['1rem', '2rem']}
+        className="loaderImage"
+      //  backgroundColor={colorMode==='light'? '#33468b' : '#94a7e6'}
+        ></Box>
                 </Link>
               )}
             </VStack>

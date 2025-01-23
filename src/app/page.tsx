@@ -9,6 +9,7 @@ import {
   Text,
   VStack,
   useBreakpointValue,
+  useColorMode,
   useDisclosure,
   useTheme
 } from "@chakra-ui/react";
@@ -42,13 +43,10 @@ interface Section {
   items: SectionItem[];
 }
 
-const isLinkedItem = (item: SectionItem): item is LinkedItem => {
-  return "text" in item && "link" in item;
-};
 
 const sections: Section[] = [
   {
-    heading: "Technical and Visual Products",
+    heading: "Live projects",
     items: [
       {
         src: "/images/imageFive.png",
@@ -154,6 +152,8 @@ export default function Page() {
     return { text: undefined, link: undefined };
   };
 
+
+  const { colorMode } = useColorMode()
   return (
     <>
       <VStack minH="100vh" justify="space-between" zIndex="4">
@@ -251,14 +251,33 @@ export default function Page() {
 
 {/* slides */}
 
-              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']}>
+              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']} mt={['5rem','']}>
                 <Box mt={["", "7rem"]}  minW='100%'>
                   {sections.map((section, sectionIndex) => (
-                    <Box key={sectionIndex} mb={12}>
+                    <Box key={sectionIndex} mb={['20', '8rem']}>
                       {/* Section Heading */}
-                      <Heading as="h3" size={["md", "xl"]} mb={4}>
-                        {section.heading.toUpperCase()}
-                      </Heading>
+                      <Flex
+      align="center"
+   
+      justify="flex-start"
+      mb={['10', '20']}
+    >
+      <Heading as="h3" size={["lg", "3xl"]} mb={['','2']}>
+        <Box as="span" color={colorMode === "light" ? "#6c87dc" : "#6c87dc"}>
+          {section.heading.split(" ")[0].toUpperCase()}
+        </Box>{" "}
+        {section.heading.split(" ").slice(1).join(" ").toUpperCase()}
+      </Heading>
+
+      {/* Loader */}
+   {section.heading === 'Live projects' &&    <Box
+       height={['3rem', '5rem']}
+       width={['2rem', '5rem']}
+   ml={['1rem', '2rem']}
+        className="water"
+       backgroundColor={colorMode==='light'? '#33468b' : '#94a7e6'}
+        ></Box>}
+    </Flex>
 
                       {/* Top Card */}
                       <Card

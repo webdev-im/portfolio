@@ -85,6 +85,7 @@ const components = {
       variant: "solid",
     },
   },
+ 
 };
 
 // 4. Extend the theme
