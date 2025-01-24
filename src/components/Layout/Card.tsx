@@ -1,4 +1,4 @@
-import { Box, Link, Text, VStack, useColorMode } from "@chakra-ui/react";
+import { Box, Link, Text, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 interface CardProps {
@@ -29,7 +29,11 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const {colorMode} = useColorMode()
+  const { colorMode } = useColorMode();
+  
+  const background = useColorModeValue('gray.200', 'gray.700'); // Light and dark background
+  const textColor = useColorModeValue('gray.800', 'gray.200'); // Light and dark text color
+  const borderColor = useColorModeValue('#33468b', '#94a7e6'); // Custom colors for border
 
   return (
     <Box
@@ -72,40 +76,40 @@ export const Card: React.FC<CardProps> = ({
 
         {/* Back Side */}
         {isBig || isMobile ? (
-          <Box
-            position="absolute"
-            top="0"
-            left="0"
-            w="100%"
-            h="100%"
-            background="white"
-            borderRadius="md"
-            transform="rotateY(180deg)"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            boxShadow="lg"
-            sx={{
-              backfaceVisibility: "hidden",
-            }}
-          >
-            <VStack>
-              <Text fontSize="xl" fontWeight="bold" color="gray">
-                {text || "No Title"}
-              </Text>
-              {link && (
-                <Link href={link} isExternal fontSize="md" color="blue.500">
-                 <Box
-       height={['3rem', '5rem']}
-       width={['3rem', '5rem']}
-   ml={['1rem', '2rem']}
-        className="loaderImage"
-      //  backgroundColor={colorMode==='light'? '#33468b' : '#94a7e6'}
-        ></Box>
-                </Link>
-              )}
-            </VStack>
-          </Box>
+     <Box
+     position="absolute"
+     top="0"
+     left="0"
+     w="100%"
+     h="100%"
+     background={background}
+     borderRadius="md"
+     transform="rotateY(180deg)"
+     display="flex"
+     justifyContent="center"
+     alignItems="center"
+     boxShadow="lg"
+     sx={{
+       backfaceVisibility: 'hidden',
+     }}
+   >
+     <VStack>
+       <Text fontSize="xl" fontWeight="bold" color={textColor}>
+         {text || 'No Title'}
+       </Text>
+       {link && (
+         <Link href={link} isExternal fontSize="md" color="blue.500">
+           <Box
+             border={`2px solid ${borderColor}`}
+             height={['3rem', '5rem']}
+             width={['3rem', '5rem']}
+             className="loaderImage"
+             backgroundColor={borderColor}
+           ></Box>
+         </Link>
+       )}
+     </VStack>
+   </Box>
         ) : null}
       </Box>
     </Box>

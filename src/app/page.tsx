@@ -77,10 +77,10 @@ const sections: Section[] = [
   {
     heading: "Visual Design Solutions",
     items: [
-      { src: "/images/imageOne.png", alt: "Design 1" },
-      { src: "/images/imageTwo.png", alt: "Design 2" },
-      { src: "/images/imageThree.png", alt: "Design 3" },
-      { src: "/images/imageFour.png", alt: "Design 4" },
+      { src: "/images/imageOne.png", alt: "Epic forests", text: "Epic forests"},
+      { src: "/images/imageTwo.png", alt: "Cozy cafe",text: "Cozy cafe" },
+      { src: "/images/imageThree.png", alt: "Parfois", text: "Parfois" },
+      { src: "/images/imageFour.png", alt: "Sauce pizza", text: "Sauce pizza" },
     ],
   },
 ];
@@ -140,20 +140,21 @@ export default function Page() {
   };
 
   const isLinkedItem = (item: SectionItem): item is LinkedItem => {
-    return "text" in item && "link" in item;
+    return "text" in item;
   };
 
 
-
   const getLinkedItemProps = (item: SectionItem) => {
-    if ("text" in item && "link" in item) {
-      return { text: item.text || "Default Text", link: item.link || "#" };
-    }
-    return { text: undefined, link: undefined };
+    return {
+      text: "text" in item ? item.text : undefined, // Include `text` if it exists
+      link: "link" in item ? item.link : undefined, // Include `link` if it exists
+    };
   };
 
 
   const { colorMode } = useColorMode()
+
+
   return (
     <>
       <VStack minH="100vh" justify="space-between" zIndex="4">
@@ -251,10 +252,10 @@ export default function Page() {
 
 {/* slides */}
 
-              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']} mt={['5rem','']}>
+              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']} mt={['5rem','']}  >
                 <Box mt={["", "7rem"]}  minW='100%'>
                   {sections.map((section, sectionIndex) => (
-                    <Box key={sectionIndex} mb={['20', '8rem']}>
+                    <Box key={sectionIndex} mb={['6rem', '10rem']}>
                       {/* Section Heading */}
                       <Flex
       align="center"
@@ -272,7 +273,7 @@ export default function Page() {
       {/* Loader */}
    {section.heading === 'Live projects' &&    <Box
        height={['3rem', '5rem']}
-       width={['2rem', '5rem']}
+       width={['3rem', '5rem']}
    ml={['1rem', '2rem']}
         className="water"
        backgroundColor={colorMode==='light'? '#33468b' : '#94a7e6'}
@@ -304,17 +305,16 @@ export default function Page() {
                         {sectionsBottomCards[sectionIndex].map(
                           (item, itemIndex) => (
                             <Card
-                              key={itemIndex}
-                              src={item.src}
-                              alt={item.alt}
-                              text={isLinkedItem(item) ? item.text : undefined}
-                              link={isLinkedItem(item) ? item.link : undefined}
-                              isBig={false}
-                              isMobile={isMobile}
-                              onClick={() =>
-                                handleCardClick(sectionIndex, itemIndex)
-                              }
-                            />
+                            key={itemIndex}
+                            src={item.src}
+                            alt={item.alt}
+                            {...getLinkedItemProps(item)} // Spread the result
+                            isBig={false}
+                            isMobile={isMobile}
+                            onClick={() => handleCardClick(sectionIndex, itemIndex)}
+                          />
+                          
+                          
                           )
                         )}
                       </Grid>
