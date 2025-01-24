@@ -228,7 +228,7 @@ export default function Page() {
               <Stack
                 justify="space-between"
                 direction={isMobile ? "column" : "row-reverse"}
-                mt={["", "2rem"]}
+                mt={["", "5rem"]}
                 minW={["", "100%"]}
               >
                 <Text
