@@ -200,15 +200,15 @@ export default function Page() {
           </VStack>
         )}
         {page === "about" && (
-          <Box
+          <VStack
             as="main"
-          
+          minW='100%'
             zIndex="4"
-            maxW={["100%", "60%"]}
+
      
           >
             {/* Hero Section */}
-            <VStack   minH='90vh' justify='space-between'>
+            <VStack   minH='90vh' justify='space-between'    minW={["100%", "60%"]} maxW={["100%", "60%"]} pb={['3rem', '']}>
               <Flex></Flex>
               <Flex direction="column" align="start" px={{ base: "1rem", md: "0" }}  maxW='1200px'>
               <Text size={["xl", "lg"]} mb={["2", "4"]} fontWeight="500">
@@ -247,13 +247,13 @@ export default function Page() {
             </Flex>
             <VStack minW="full" mt={['4rem']}>
               <div className="mouse"></div>
-            </VStack></VStack>
-            <Box mt={["", "7rem"]}>
+            </VStack > </VStack>
+            <VStack mt={["", "7rem"]} mb={['0.7rem','']} minW='100%'  borderRadius={['15px', '2rem']} bg={ colorMode==='dark'? "rgba(255,255,255,0.05)" : "rgba(0,0,0, 0.05)"}>
 
 {/* slides */}
 
-              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '']} mt={['5rem','']}  >
-                <Box mt={["", "7rem"]}  minW='100%'>
+              <VStack minH="100vh" justify="space-between" zIndex="4" px={['1rem', '0']} mt={['3rem','']}  minW={["100%", "60%"]} maxW={["100%", "60%"]} >
+                <Box mt={["", "7rem"]}   minW='100%' >
                   {sections.map((section, sectionIndex) => (
                     <Box key={sectionIndex} mb={['6rem', '10rem']}>
                       {/* Section Heading */}
@@ -324,9 +324,10 @@ export default function Page() {
               </VStack>
 
 
-              {/* slides */}
-            </Box>
-          </Box>
+         
+            </VStack>
+          </VStack>
+          
         )}
         <Footer />
       </VStack>
