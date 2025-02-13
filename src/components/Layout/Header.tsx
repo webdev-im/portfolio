@@ -1,4 +1,4 @@
-import { FiImage, FiLinkedin, FiMail } from "react-icons/fi";
+import { FaBehance, FaImage, FaLinkedinIn, FaRegEnvelope } from "react-icons/fa";
 import {
   Flex,
   HStack,
@@ -7,8 +7,12 @@ import {
   useBreakpointValue
 } from "@chakra-ui/react";
 
+import { FiImage } from "react-icons/fi";
 import Image from "next/image";
+import { PiBehanceLogo } from "react-icons/pi";
 import React from "react";
+import { RiLinkedinLine } from "react-icons/ri";
+import { SlSocialBehance } from "react-icons/sl";
 import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
 
 interface HeaderProps {
@@ -20,7 +24,7 @@ interface HeaderProps {
 const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  
+
   return (
     <HStack
       minW={isMobile ? "full" : "60%"}
@@ -58,7 +62,7 @@ const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
           </Tooltip>
           <Tooltip label="Contact" aria-label="Contact Us Tooltip">
             <Link onClick={onContactOpen}>
-              <FiMail fontSize="22px" className="shaking" />
+              <FaRegEnvelope fontSize="22px" className="shaking" />
             </Link>
           </Tooltip>
           <Tooltip label="Linkedin">
@@ -67,7 +71,17 @@ const Header = ({ page, setPage, onContactOpen }: HeaderProps) => {
               target="_blank"
               rel="noreferrer"
             >
-              <FiLinkedin fontSize="22px" className="shaking" />
+              <FaLinkedinIn fontSize="22px" className="shaking" />
+            </Link>
+          </Tooltip>
+          <Tooltip label="Behance">
+            <Link
+              href="https://www.behance.com/webdev-im/"
+              target="_blank"
+              rel="noreferrer"
+              mt={1}
+            >
+              <FaBehance fontSize="22px" className="shaking" />
             </Link>
           </Tooltip>
         </HStack>
