@@ -86,7 +86,6 @@ export const sections: Section[] = [
         alt: "Epic forests",
         text: "Epic forests",
         type: "design",
-        instagram: "https://instagram.com/design_forest",
       },
       {
         src: "/images/imageTwo.png",

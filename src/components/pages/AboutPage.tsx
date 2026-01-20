@@ -22,6 +22,7 @@ import { useRef, useState } from "react";
 
 import { Card } from "@/components/Layout/Card";
 import MultilayerButton from "../Layout/action/StyledButton";
+import SlidingGradientText from "../Layout/WavyText";
 import { keyframes } from "@emotion/react";
 import { sections } from "@/constants/data";
 
@@ -143,10 +144,18 @@ export default function AboutSection({ onContactOpen }: AboutSectionProps) {
                         <Text fontSize={isMobile ? "xs" : "sm"} mb="2" fontWeight="800" color="brand.500" letterSpacing="0.4em">
                             WEB DEVELOPER
                         </Text>
-                        <Heading fontSize={isMobile ? "clamp(2.5rem, 10vw, 4.5rem)" : "7.5rem"} fontWeight="900" lineHeight="1.1" mb={isMobile ? '6' : '14'} letterSpacing="-0.04em">
-                            Crafting Modern <br />
-                            <Text as="span" color="brand.500">Experiences.</Text>
+                        <Heading
+                            fontSize={isMobile ? "clamp(2.5rem, 10vw, 4.5rem)" : "7.5rem"}
+                            fontWeight="900"
+                            lineHeight="1.1"
+                            mb={isMobile ? "6" : "14"}
+                            letterSpacing="-0.04em"
+                        >
+                            <SlidingGradientText>Crafting Modern</SlidingGradientText>
+                            <br />
+                            <SlidingGradientText>Experiences.</SlidingGradientText>
                         </Heading>
+
                         <Stack direction={isMobile ? "column" : "row"} spacing={8} align="center">
                             <MultilayerButton buttonText="Let's talk" onClick={() => {
                                 onContactOpen();
