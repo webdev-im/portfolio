@@ -17,34 +17,46 @@ import {
     useColorModeValue,
     useDisclosure,
 } from "@chakra-ui/react";
+import { FiChevronDown, FiX } from "react-icons/fi";
 import { useRef, useState } from "react";
 
 import { Card } from "@/components/Layout/Card";
-import { FiChevronDown } from "react-icons/fi";
 import MultilayerButton from "../Layout/action/StyledButton";
 import { keyframes } from "@emotion/react";
 import { sections } from "@/constants/data";
 
-export default function AboutSection() {
+interface AboutSectionProps {
+    onContactOpen: () => void;
+}
+
+export default function AboutSection({ onContactOpen }: AboutSectionProps) {
     const items = sections.flatMap((section) => section.items);
 
     const isMobile = useBreakpointValue({ base: true, md: false });
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const curveColor = useColorModeValue("#f7fafc", "#0a0a0a"); // Matches sectionBg
+
     const galleryRef = useRef<HTMLDivElement | null>(null);
 
-    // Modern Section Separator Logic
-    const sectionGlow = useColorModeValue(
-        "radial-gradient(circle, rgba(66,153,225,0.12) 0%, transparent 70%)",
-        "radial-gradient(circle, rgba(121,40,202,0.25) 0%, transparent 70%)"
-    );
+    // COLORS & THEMING
+    const sectionBgColor = useColorModeValue("rgba(247, 250, 252, 0.85)", "rgba(10, 10, 10, 0.7)");
 
-    // Fixed: Arrow visibility for Light Mode
+    // DYNAMIC GLOW SETTINGS
+    // Higher opacity and blur for mobile to ensure separation is visible
+    const glowOpacity = useBreakpointValue({ base: 0.6, md: 0.25 });
+    const glowSize = useBreakpointValue({ base: "160%", md: "1200px" });
+    const glowBlur = useBreakpointValue({ base: "60px", md: "120px" });
+
+    // Correctly applying opacity to the radial gradient
+    const lightGlow = `radial-gradient(circle, rgba(66, 153, 225, ${glowOpacity}) 0%, transparent 70%)`;
+    const darkGlow = `radial-gradient(circle, rgba(121, 40, 202, ${glowOpacity}) 0%, transparent 70%)`;
+    const sectionGlow = useColorModeValue(lightGlow, darkGlow);
+
+    // ARROW & UI
     const arrowColor = useColorModeValue("gray.800", "white");
-    const arrowBg = useColorModeValue("blackAlpha.50", "whiteAlpha.200");
+    const arrowBg = useColorModeValue("white", "whiteAlpha.200");
     const arrowBorder = useColorModeValue("gray.200", "whiteAlpha.300");
-    const sectionBg = useColorModeValue("gray.50", "#0a0a0a");
+
     const handleScrollDown = () => {
         galleryRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -63,22 +75,51 @@ export default function AboutSection() {
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <ModalOverlay backdropFilter="blur(10px)" />
+                <ModalOverlay backdropFilter="blur(10px)" bg="blackAlpha.800" />
                 <ModalContent
-                    maxW={["95%", "80%", "70%"]}
-                    bg="rgba(0,0,0,0.85)"
-                    backdropFilter="blur(20px)"
-                    borderRadius="32px"
-                    overflow="hidden"
+                    maxW={["95%", "85%", "75%"]}
+                    bg="transparent" // Remove content bg to let image be the star
+                    boxShadow="none"
+                    position="relative"
                 >
-                    <ModalBody p={0}>
+                    {/* HIGH VISIBILITY CLOSE BUTTON */}
+                    <Box
+                        position="absolute"
+                        top={{ base: "-50px", md: "10px" }} // On mobile, move it ABOVE the image
+                        right={{ base: "50%", md: "-60px" }} // On mobile, center it; on desktop, move it OUTSIDE
+                        transform={{ base: "translateX(50%)", md: "none" }}
+                        zIndex="20"
+                        onClick={onClose}
+                        cursor="pointer"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        w="44px"
+                        h="44px"
+                        borderRadius="full"
+                        // Stronger glass effect to ensure visibility
+                        bg="rgba(255, 255, 255, 0.2)"
+                        backdropFilter="blur(15px)"
+                        border="1px solid"
+                        borderColor="whiteAlpha.400"
+                        color="white"
+                        boxShadow="0 4px 12px rgba(0,0,0,0.5)"
+                        transition="all 0.2s"
+                        _hover={{ bg: "whiteAlpha.400", transform: isMobile ? "translateX(50%) scale(1.1)" : "scale(1.1)" }}
+                    >
+                        <Icon as={FiX} w={6} h={6} strokeWidth={3} />
+                    </Box>
+
+                    <ModalBody p={0} display="flex" justifyContent="center">
                         {selectedImage && (
                             <Image
                                 src={selectedImage}
-                                alt="Fullscreen"
-                                w="100%"
-                                h="100%"
+                                alt="Fullscreen view"
+                                maxW="100%"
+                                maxH="85vh" // Leave room for the button on mobile
+                                borderRadius="24px" // Match your card style
                                 objectFit="contain"
+                                boxShadow="0 20px 60px rgba(0,0,0,0.5)"
                                 onClick={onClose}
                             />
                         )}
@@ -86,10 +127,11 @@ export default function AboutSection() {
                 </ModalContent>
             </Modal>
 
-            <VStack as="main" minW="100%" zIndex="4" spacing={0} position="relative">
-                {/* HERO SECTION - Guaranteed 100vh */}
+            <VStack as="main" minW="100%" spacing={0} position="relative" >
+
+                {/* HERO SECTION */}
                 <VStack
-                    h="93vh"
+                    h="96vh"
                     justify="center"
                     px="1rem"
                     maxW="1200px"
@@ -106,22 +148,45 @@ export default function AboutSection() {
                             <Text as="span" color="brand.500">Experiences.</Text>
                         </Heading>
                         <Stack direction={isMobile ? "column" : "row"} spacing={8} align="center">
-                            <MultilayerButton buttonText="Let's talk" onClick={() => console.log("Contact")} size={isMobile ? "sm" : "lg"} />
+                            <MultilayerButton buttonText="Let's talk" onClick={() => {
+                                onContactOpen();
+                                onClose();
+                            }} size={isMobile ? "sm" : "lg"} />
                             <Text fontSize={isMobile ? "md" : "lg"} maxW="450px" opacity={0.7}>
                                 High-performance digital products with a polished aesthetic.
                             </Text>
                         </Stack>
                     </Flex>
 
-                    {/* SCROLL INDICATOR */}
-                    <Box position="absolute" bottom="3rem" left="50%" cursor="pointer" animation={`${bounce} 2s infinite`} onClick={handleScrollDown} zIndex="10">
+                    <Box position="absolute" bottom="4rem" left="50%" cursor="pointer" animation={`${bounce} 2s infinite`} onClick={handleScrollDown} zIndex="10">
                         <Flex w="64px" h="64px" borderRadius="full" bg={arrowBg} border="1px solid" borderColor={arrowBorder} boxShadow="xl" align="center" justify="center" color={arrowColor}>
                             <Icon as={FiChevronDown} w={8} h={8} strokeWidth={2.5} />
                         </Flex>
                     </Box>
                 </VStack>
 
-
+                {/* THE CURVE SEPARATOR */}
+                <Box
+                    w="100%"
+                    h={{ base: "80px", md: "150px" }}
+                    position="relative"
+                    zIndex="2"
+                    mt="-1px"
+                    pointerEvents="none"
+                >
+                    <svg width="100%" height="100%" viewBox="0 0 1440 150" preserveAspectRatio="none" style={{ display: 'block' }}>
+                        <defs>
+                            <linearGradient id="curve-gradient" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stopColor={sectionBgColor} stopOpacity="0" />
+                                <stop offset="100%" stopColor={sectionBgColor} stopOpacity="1" />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            d="M0 0 C 480 150, 960 150, 1440 0 L 1440 150 L 0 150 Z"
+                            fill="url(#curve-gradient)"
+                        />
+                    </svg>
+                </Box>
 
                 {/* GALLERY SECTION */}
                 <Box
@@ -130,25 +195,23 @@ export default function AboutSection() {
                     position="relative"
                     w="100%"
                     py={{ base: "4rem", md: "10rem" }}
-                    // The transparent background
-                    bg={useColorModeValue("rgba(247, 250, 252, 0.7)", "rgba(10, 10, 10, 0.5)")}
-                    // Blurs the radiant glow underneath for a frosted look
+                    bg={sectionBgColor}
                     backdropFilter="blur(20px)"
                     overflow="hidden"
                 >
-                    {/* ENHANCED GLOW (Now anchored to the section) */}
+                    {/* ENHANCED GLOW - Optimized for mobile visibility */}
                     <Box
                         position="absolute"
-                        top="20%"
+                        top="2%"
                         left="50%"
                         transform="translateX(-50%)"
-                        w="100%"
-                        maxW="1000px"
-                        h="600px"
+                        w={glowSize}
+                        h={{ base: "600px", md: "800px" }}
                         bg={sectionGlow}
-                        filter="blur(100px)"
+                        filter={`blur(${glowBlur})`}
                         zIndex="0"
                         pointerEvents="none"
+                        opacity={isMobile ? 0.8 : 1}
                     />
 
                     <VStack maxW="1400px" mx="auto" px={["1.5rem", "2rem", "4rem"]} position="relative" zIndex="1">

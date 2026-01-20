@@ -20,6 +20,7 @@ import {
   FiFacebook,
   FiGlobe,
   FiInstagram,
+  FiLinkedin
 } from "react-icons/fi";
 
 import { ItemType } from "@/constants/data";
@@ -34,6 +35,7 @@ interface CardProps {
   fbLink?: string;
   website?: string;
   instagram?: string;
+  linkedIn?: string;
   type: ItemType;
   onClick?: () => void;
 }
@@ -46,6 +48,7 @@ export const Card: React.FC<CardProps> = ({
   fbLink,
   website,
   instagram,
+  linkedIn,
   type,
   onClick,
 }) => {
@@ -56,7 +59,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <Box
-      onClick={onClick}
+
       position="relative"
       flex={{ base: "1 1 100%", sm: "1 1 45%", md: "1 1 350px" }}
       maxW={{ base: "100%", md: "400px" }}
@@ -78,10 +81,12 @@ export const Card: React.FC<CardProps> = ({
         objectFit="cover"
         transition="transform 0.6s ease"
         _groupHover={{ transform: "scale(1.1)" }}
+
       />
 
       <Box
         position="absolute"
+        onClick={onClick}
         inset="0"
         bg="linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 90%)"
       />
@@ -146,18 +151,38 @@ export const Card: React.FC<CardProps> = ({
         <Flex w="100%" justify="space-between" align="center">
           <HStack spacing={4} color="whiteAlpha.900">
             {website && (
-              <Link href={website} isExternal _hover={{ color: "blue.300" }}>
+              <Link href={website} isExternal _hover={{ color: "teal.300" }}>
                 <Icon as={FiGlobe} w={5} h={5} />
               </Link>
             )}
             {fbLink && (
-              <Link href={fbLink} isExternal _hover={{ color: "facebook.400" }}>
+              <Link
+                href={fbLink}
+                isExternal
+                // Official Facebook Blue
+                _hover={{ color: "#1877F2" }}
+              >
                 <Icon as={FiFacebook} w={5} h={5} />
               </Link>
             )}
             {instagram && (
-              <Link href={instagram} isExternal _hover={{ color: "pink.400" }}>
+              <Link
+                href={instagram}
+                isExternal
+                // Instagram's signature pink/gradient-end color
+                _hover={{ color: "#E4405F" }}
+              >
                 <Icon as={FiInstagram} w={5} h={5} />
+              </Link>
+            )}
+            {linkedIn && (
+              <Link
+                href={linkedIn}
+                isExternal
+                // Official LinkedIn Blue
+                _hover={{ color: "#0A66C2" }}
+              >
+                <Icon as={FiLinkedin} w={5} h={5} />
               </Link>
             )}
           </HStack>

@@ -12,6 +12,7 @@ export interface PortfolioItem {
   fbLink?: string;
   website?: string;
   instagram?: string;
+  linkedIn?: string;
 }
 
 export interface Section {
@@ -40,10 +41,11 @@ export const sections: Section[] = [
         src: "/images/imageFive.png",
         alt: "Mackialo events",
         text: "Mackialo Projects",
-        link: "https://mackialo.com",
+        link: "https://mackialo.netlify.app",
         type: "project",
-        website: "https://mackialo.com",
-        fbLink: "https://facebook.com/mackialo",
+        website: "https://mackialo.netlify.app",
+        fbLink: "https://www.facebook.com/liucina",
+        instagram: "https://www.instagram.com/liucina",
       },
       {
         src: "/images/imageSix.png",
@@ -51,7 +53,8 @@ export const sections: Section[] = [
         text: "Renata Valcik",
         link: "https://renatavalcik.com",
         type: "project",
-        instagram: "https://instagram.com/renatavalcik",
+        fbLink: "https://www.facebook.com/nana.valc",
+        instagram: "https://www.instagram.com/renata_valcik",
       },
       {
         src: "/images/imageSeven.png",
@@ -60,6 +63,8 @@ export const sections: Section[] = [
         link: "https://animatrix.lt",
         type: "project",
         website: "https://animatrix.lt",
+        fbLink: "https://www.facebook.com/animatrix.lt/",
+        linkedIn: "https://www.linkedin.com/company/animatrix/",
       },
       {
         src: "/images/imageEight.png",
@@ -67,6 +72,7 @@ export const sections: Section[] = [
         text: "Something for Windy",
         link: "https://somethingforwindy.netlify.app",
         type: "project",
+        instagram: "https://www.instagram.com/somethingforwindy",
       },
       {
         src: "/images/imageNine.png",

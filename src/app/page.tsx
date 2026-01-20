@@ -37,7 +37,6 @@ export default function Page() {
 
   const [page, setPage] = useState<"home" | "about">("home");
   const [isPaused, setIsPaused] = useState(false);
-  const isMobile = useBreakpointValue({ base: true, md: false });
   const brandColor = theme.colors?.brand?.[500] || "#415bb2";
 
 
@@ -94,7 +93,7 @@ export default function Page() {
 
 
         {page === "about" && (
-          <AboutSection />
+          <AboutSection onContactOpen={onContactOpen} />
         )}
 
 

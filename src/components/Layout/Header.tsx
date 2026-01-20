@@ -1,24 +1,26 @@
-import { FaBehance, FaDribbble, FaLinkedinIn } from "react-icons/fa";
+"use client"
+
 import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
   Flex,
   HStack,
+  IconButton,
   Link,
+  Text,
   Tooltip,
+  VStack,
   useBreakpointValue,
   useColorMode,
-  Text,
-  IconButton,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerBody,
-  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { FaBehance, FaDribbble, FaLinkedinIn } from "react-icons/fa";
+
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Image from "next/image";
-import React from "react";
 import { UseChangeTheme } from "../../functions/hooks/useChangeTheme";
 
 interface HeaderProps {
