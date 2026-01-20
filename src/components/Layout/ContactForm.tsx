@@ -1,6 +1,7 @@
+"use client";
+
 import {
   Box,
-  Button,
   Divider,
   FormControl,
   FormErrorMessage,
@@ -19,13 +20,14 @@ import {
   Text,
   Textarea,
   VStack,
-  useToast,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import emailjs from "emailjs-com";
+
 import MultilayerButton from "./action/StyledButton";
+import emailjs from "emailjs-com";
 
 interface ContactFormData {
   name: string;
@@ -49,6 +51,7 @@ const ContactForm = ({
   } = useForm<ContactFormData>({ mode: "onChange" });
 
   const { colorMode } = useColorMode();
+  const toast = useToast();
   const [emailStatus, setEmailStatus] = useState<"success" | "error" | null>(
     null
   );
@@ -66,16 +69,15 @@ const ContactForm = ({
         },
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
-  
+
       toast({
         title: "Message sent!",
         description: "Your message was sent successfully. Thank you!",
         status: "success",
         duration: 5000,
         isClosable: true,
-       
       });
-  
+
       reset();
       onClose();
     } catch (error) {
@@ -85,58 +87,86 @@ const ContactForm = ({
         status: "error",
         duration: 5000,
         isClosable: true,
-       
       });
     }
   };
-  
 
   const handleClose = () => {
     setEmailStatus(null);
     onClose();
   };
 
-  const toast = useToast();
+  // Glass input style
+  const inputStyle = {
+    bg:
+      colorMode === "dark"
+        ? "rgba(255,255,255,0.05)"
+        : "rgba(255,255,255,0.6)",
+    border: "1px solid",
+    borderColor:
+      colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200",
+    backdropFilter: "blur(10px)",
+    _focus: {
+      borderColor: "brandPrimary.500",
+      boxShadow: "0 0 0 1px var(--chakra-colors-brandPrimary-500)",
+    },
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered>
       <ModalOverlay />
+
       <ModalContent
-        bg={colorMode === "dark" ? "gray.800" : "white"}
-        color={colorMode === "dark" ? "white" : "gray.800"}
-        borderRadius="md"
+        borderRadius="40px"
+        p="2rem"
+        maxW={["90%", "600px", "700px"]} // ← wider modal
+        bg={
+          colorMode === "dark"
+            ? "rgba(20,20,25,0.55)"
+            : "rgba(255,255,255,0.45)"
+        }
+        backdropFilter="blur(25px)"
+
+        border="1px solid"
+        borderColor={
+          colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"
+        }
+        boxShadow={
+          colorMode === "dark"
+            ? "0 20px 60px rgba(0,0,0,0.6)"
+            : "0 20px 60px rgba(65,91,178,0.15)"
+        }
       >
-        <ModalHeader fontSize="4xl">Contact Us</ModalHeader>
+        <ModalHeader
+          fontSize="3xl"
+          fontWeight="900"
+          letterSpacing="-0.03em"
+          textAlign="center"
+          color={colorMode === "dark" ? "white" : "gray.900"}
+        >
+          Contact Us
+        </ModalHeader>
+
         <ModalCloseButton />
+
         <ModalBody>
-          {emailStatus === "success" && (
-            <Text color="green.500" mb={4}>
-              Your message was sent successfully. Thank you!
-            </Text>
-          )}
-          {emailStatus === "error" && (
-            <Text color="red.500" mb={4}>
-              Something went wrong. Please try again later.
-            </Text>
-          )}
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            <Stack spacing={4}>
+            <Stack spacing={5}>
+              {/* NAME */}
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel htmlFor="name">Name</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <Input
-                  id="name"
                   placeholder="Your Name"
-                  {...register("name", {
-                    required: "Name is required",
-                  })}
+                  {...register("name", { required: "Name is required" })}
+                  {...inputStyle}
                 />
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
 
+              {/* EMAIL */}
               <FormControl isInvalid={!!errors.email}>
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <Input
-                  id="email"
                   type="email"
                   placeholder="Your Email"
                   {...register("email", {
@@ -146,14 +176,15 @@ const ContactForm = ({
                       message: "Please enter a valid email address",
                     },
                   })}
+                  {...inputStyle}
                 />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
 
+              {/* PHONE */}
               <FormControl isInvalid={!!errors.phone}>
-                <FormLabel htmlFor="phone">Phone</FormLabel>
+                <FormLabel>Phone</FormLabel>
                 <Input
-                  id="phone"
                   type="tel"
                   placeholder="Your Phone Number (e.g., +1234567890)"
                   {...register("phone", {
@@ -166,42 +197,54 @@ const ContactForm = ({
                   onInput={(e) => {
                     const input = e.target as HTMLInputElement;
                     if (!input.value.startsWith("+")) {
-                      input.value = "+" + input.value.replace(/[^0-9]/g, "");
+                      input.value =
+                        "+" + input.value.replace(/[^0-9]/g, "");
                     } else {
                       input.value = input.value.replace(/[^+\d]/g, "");
                     }
                   }}
+                  {...inputStyle}
                 />
                 <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
               </FormControl>
 
+              {/* MESSAGE */}
               <FormControl isInvalid={!!errors.message}>
-                <FormLabel htmlFor="message">Message</FormLabel>
+                <FormLabel>Message</FormLabel>
                 <Textarea
-                  id="message"
                   placeholder="Your Message"
                   {...register("message", {
                     required: "Message is required",
                   })}
+                  {...inputStyle}
                 />
-                <FormErrorMessage>{errors.message?.message}</FormErrorMessage>
+                <FormErrorMessage>
+                  {errors.message?.message}
+                </FormErrorMessage>
               </FormControl>
             </Stack>
           </form>
         </ModalBody>
 
-        <ModalFooter>
+        {/* FOOTER */}
+        <ModalFooter
+          mt="2rem"
+          borderTop="1px solid"
+          borderColor={
+            colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200"
+          }
+          pt="2rem"
+        >
           <VStack minW="full" spacing={4}>
             <HStack spacing={4}>
-              {/* Submit Button */}
               <MultilayerButton
                 size="md"
                 buttonText="Submit"
                 noIcon
-                onClick={handleSubmit(onSubmit)} // Properly validate and handle submission
-                isDisabled={!isValid || isSubmitting} // Disable until form is valid
+                onClick={handleSubmit(onSubmit)}
+                isDisabled={!isValid || isSubmitting}
               />
-              {/* Cancel Button */}
+
               <MultilayerButton
                 size="md"
                 buttonText="Cancel"
@@ -211,7 +254,9 @@ const ContactForm = ({
                 variant="outline"
               />
             </HStack>
-            <Divider borderColor="gray.400" my={10} />
+
+            <Divider borderColor="gray.400" />
+
             <HStack spacing={2} fontWeight={200}>
               <Text>Send us an email:</Text>
               <Link

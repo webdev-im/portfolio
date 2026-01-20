@@ -1,13 +1,40 @@
-import { Box, Link, Text, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import React, { useState } from "react";
+"use client";
+
+import {
+  Badge,
+  Box,
+  Flex,
+  HStack,
+  Heading,
+  Icon,
+  Image,
+  Link,
+  Text,
+  Tooltip,
+  VStack,
+  useBreakpointValue,
+  useColorMode
+} from "@chakra-ui/react";
+import {
+  FiCheckCircle,
+  FiFacebook,
+  FiGlobe,
+  FiInstagram,
+} from "react-icons/fi";
+
+import { ItemType } from "@/constants/data";
+import MultilayerButton from "./action/StyledButton";
+import React from "react";
 
 interface CardProps {
   src: string;
   alt: string;
   text?: string;
   link?: string;
-  isBig?: boolean;
-  isMobile?: boolean;
+  fbLink?: string;
+  website?: string;
+  instagram?: string;
+  type: ItemType;
   onClick?: () => void;
 }
 
@@ -16,102 +43,137 @@ export const Card: React.FC<CardProps> = ({
   alt,
   text,
   link,
-  isBig,
-  isMobile,
+  fbLink,
+  website,
+  instagram,
+  type,
   onClick,
 }) => {
-  const [flipped, setFlipped] = useState(false);
-
-  const handleFlip = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isBig || isMobile) {
-      setFlipped(!flipped);
-    }
-  };
-
   const { colorMode } = useColorMode();
-  
-  const background = useColorModeValue('gray.200', 'gray.700'); // Light and dark background
-  const textColor = useColorModeValue('gray.800', 'gray.200'); // Light and dark text color
-  const borderColor = useColorModeValue('#33468b', '#94a7e6'); // Custom colors for border
+  const isDark = colorMode === "dark";
+  const isMobile = useBreakpointValue({ base: true, md: false })
+  const buttonLabel = type === "project" ? "Live project" : "View design";
 
   return (
     <Box
-      w="100%"
+      onClick={onClick}
       position="relative"
-      borderRadius="md"
-      overflow="visible"
-      boxShadow="md"
+      flex={{ base: "1 1 100%", sm: "1 1 45%", md: "1 1 350px" }}
+      maxW={{ base: "100%", md: "400px" }}
+      h={{ base: "450px", md: "500px" }}
+      borderRadius="32px"
+      overflow="hidden"
       cursor="pointer"
-      sx={{
-        perspective: "1200px",
-      }}
-      onClick={isMobile || isBig ? handleFlip : onClick}
+      role="group"
+      bg={isDark ? "gray.800" : "gray.100"}
+      transition="transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+      _hover={{ transform: "scale(1.02)" }}
     >
-      <Box
-        position="relative"
-        pb="56.25%" // Maintain aspect ratio
+      {/* BACKGROUND IMAGE */}
+      <Image
+        src={src}
+        alt={alt}
         w="100%"
-        sx={{
-          transformStyle: "preserve-3d",
-          transition: "transform 0.6s",
-          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-        }}
-      >
-        {/* Front Side */}
-        <Box
-          position="absolute"
-          top="0"
-          left="0"
-          w="100%"
-          h="100%"
-          backgroundImage={`url(${src})`}
-          backgroundSize="cover"
-          backgroundPosition="center"
-          borderRadius="md"
-          sx={{
-            backfaceVisibility: "hidden",
-          }}
-        />
+        h="100%"
+        objectFit="cover"
+        transition="transform 0.6s ease"
+        _groupHover={{ transform: "scale(1.1)" }}
+      />
 
-        {/* Back Side */}
-        {isBig || isMobile ? (
-     <Box
-     position="absolute"
-     top="0"
-     left="0"
-     w="100%"
-     h="100%"
-     background={background}
-     borderRadius="md"
-     transform="rotateY(180deg)"
-     display="flex"
-     justifyContent="center"
-     alignItems="center"
-     boxShadow="lg"
-     sx={{
-       backfaceVisibility: 'hidden',
-     }}
-   >
-     <VStack>
-       <Text fontSize="xl" fontWeight="bold" color={textColor}>
-         {text || 'No Title'}
-       </Text>
-       {link && (
-         <Link href={link} isExternal fontSize="md" color="blue.500">
-           <Box
-             border={`2px solid ${borderColor}`}
-             height={['3rem', '5rem']}
-             width={['3rem', '5rem']}
-             className="loaderImage"
-             backgroundColor={borderColor}
-           ></Box>
-         </Link>
-       )}
-     </VStack>
-   </Box>
-        ) : null}
-      </Box>
+      <Box
+        position="absolute"
+        inset="0"
+        bg="linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 90%)"
+      />
+
+      {/* TOP BADGE */}
+      <Badge
+        position="absolute"
+        top="5"
+        left="5"
+        px="3"
+        py="1"
+        borderRadius="full"
+        fontSize="10px"
+        fontWeight="bold"
+        color="white"
+        backdropFilter="blur(8px)"
+        bg="whiteAlpha.300"
+      >
+        {type === "project" ? "Design & Code" : "Visual Design"}
+      </Badge>
+
+      {/* CONTENT AREA */}
+      <VStack
+        position="absolute"
+        bottom="0"
+        left="0"
+        right="0"
+        p="6"
+        spacing={4}
+        align="start"
+      >
+        <VStack align="start" spacing={1} w="100%">
+          <HStack spacing={2}>
+            <Heading size="md" color="white" fontSize="22px" letterSpacing="-0.02em">
+              {text}
+            </Heading>
+
+            {/* GREEN TICK LOGIC */}
+            {link && (
+              <Tooltip
+                label="This project is live and verified"
+                hasArrow
+                placement="top"
+                bg="gray.700"
+                color="white"
+              >
+                <Box display="flex" alignItems="center">
+                  <Icon as={FiCheckCircle} color="green.400" w={5} h={5} />
+                </Box>
+              </Tooltip>
+            )}
+          </HStack>
+
+          <Text color="whiteAlpha.800" fontSize="sm" noOfLines={2}>
+            {type === "project"
+              ? "Focused on simplicity, performance, and clean code."
+              : "Exploring intuitive design and modern visual identity."}
+          </Text>
+        </VStack>
+
+        {/* FOOTER: SOCIALS + CONDITIONAL BUTTON */}
+        <Flex w="100%" justify="space-between" align="center">
+          <HStack spacing={4} color="whiteAlpha.900">
+            {website && (
+              <Link href={website} isExternal _hover={{ color: "blue.300" }}>
+                <Icon as={FiGlobe} w={5} h={5} />
+              </Link>
+            )}
+            {fbLink && (
+              <Link href={fbLink} isExternal _hover={{ color: "facebook.400" }}>
+                <Icon as={FiFacebook} w={5} h={5} />
+              </Link>
+            )}
+            {instagram && (
+              <Link href={instagram} isExternal _hover={{ color: "pink.400" }}>
+                <Icon as={FiInstagram} w={5} h={5} />
+              </Link>
+            )}
+          </HStack>
+
+          {/* RENDER BUTTON ONLY IF LINK EXISTS */}
+          {link && (
+            <Box onClick={(e) => e.stopPropagation()}>
+              <MultilayerButton
+                buttonText={buttonLabel}
+                onClick={() => window.open(link, "_blank")}
+                size={isMobile ? 'xs' : 'sm'}
+              />
+            </Box>
+          )}
+        </Flex>
+      </VStack>
     </Box>
   );
 };

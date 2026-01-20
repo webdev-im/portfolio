@@ -14,7 +14,7 @@ const colors = {
     200: "#94a7e6",
     300: "#6c87dc",
     400: "#4566d3",
-    500: "#415bb2",
+    500: "#415bb2", // Your primary matching color
     600: "#33468b",
     700: "#253265",
     800: "#181d3e",
@@ -22,39 +22,47 @@ const colors = {
   },
 };
 
-// 3. Customize the Button component with theme sensitivity
+// 3. Global Styles for Glassmorphism Backgrounds
+const styles = {
+  global: (props: any) => ({
+    body: {
+      bg: props.colorMode === "dark" ? "gray.950" : "gray.50",
+      color: props.colorMode === "dark" ? "whiteAlpha.900" : "gray.800",
+      transition: "background-color 0.2s ease",
+    },
+  }),
+};
+
+// 4. Customize the Button component with a "Glass" variant
 const components = {
   Button: {
     baseStyle: {
-      fontWeight: "bold", // Make all buttons bold
-      borderRadius: "md", // Add rounded corners
-    },
-    sizes: {
-      sm: {
-        fontSize: "sm",
-        px: 4, // Padding x
-        py: 2, // Padding y
-      },
-      md: {
-        fontSize: "md",
-        px: 6,
-        py: 3,
-      },
-      lg: {
-        fontSize: "lg",
-        px: 8,
-        py: 4,
-      },
+      fontWeight: "600",
+      borderRadius: "full", // Rounded buttons look more modern with glass
+      transition: "all 0.3s ease",
     },
     variants: {
       solid: (props: any) => ({
         bg: props.colorMode === "light" ? "brand.500" : "brand.400",
         color: "white",
+        boxShadow: "0 4px 14px 0 rgba(65, 91, 178, 0.39)", // Subtle glow
         _hover: {
           bg: props.colorMode === "light" ? "brand.600" : "brand.500",
+          transform: "translateY(-1px)",
+          boxShadow: "0 6px 20px rgba(65, 91, 178, 0.23)",
         },
-        _active: {
-          bg: props.colorMode === "light" ? "brand.700" : "brand.600",
+      }),
+      // New Glass Variant for Buttons
+      glass: (props: any) => ({
+        bg: props.colorMode === "dark" ? "whiteAlpha.100" : "whiteAlpha.600",
+        backdropFilter: "blur(10px)",
+        border: "1px solid",
+        borderColor:
+          props.colorMode === "dark" ? "whiteAlpha.200" : "blackAlpha.200",
+        color: props.colorMode === "dark" ? "white" : "brand.600",
+        _hover: {
+          bg: props.colorMode === "dark" ? "whiteAlpha.200" : "whiteAlpha.800",
+          borderColor: "brand.400",
         },
       }),
       outline: (props: any) => ({
@@ -62,33 +70,33 @@ const components = {
         borderColor: props.colorMode === "light" ? "brand.500" : "brand.400",
         color: props.colorMode === "light" ? "brand.500" : "brand.400",
         _hover: {
-          bg: props.colorMode === "light" ? "brand.50" : "brand.900",
-          color: props.colorMode === "light" ? "brand.700" : "brand.300",
-        },
-        _active: {
-          bg: props.colorMode === "light" ? "brand.100" : "brand.800",
-          borderColor: props.colorMode === "light" ? "brand.600" : "brand.500",
+          bg:
+            props.colorMode === "light"
+              ? "brand.50"
+              : "rgba(69, 102, 211, 0.1)",
         },
       }),
-      ghost: (props: any) => ({
-        color: props.colorMode === "light" ? "brand.500" : "brand.400",
-        _hover: {
-          bg: props.colorMode === "light" ? "brand.50" : "brand.900",
-        },
-        _active: {
-          bg: props.colorMode === "light" ? "brand.100" : "brand.800",
-        },
-      }),
-    },
-    defaultProps: {
-      size: "md",
-      variant: "solid",
     },
   },
- 
+  // Adding Heading customization for the "Modern" feel
+  Heading: {
+    baseStyle: {
+      letterSpacing: "-0.02em",
+    },
+  },
 };
 
-// 4. Extend the theme
-const theme = extendTheme({ config, colors, components });
+// 5. Extend the theme
+const theme = extendTheme({
+  config,
+  colors,
+  styles,
+  components,
+  // Custom shadows for glass panes
+  shadows: {
+    glass: "0 8px 32px 0 rgba(31, 38, 135, 0.15)",
+    glassDark: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+  },
+});
 
 export default theme;

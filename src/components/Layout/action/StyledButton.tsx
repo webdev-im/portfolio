@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Icon,
@@ -5,10 +7,11 @@ import {
   forwardRef,
   useTheme,
 } from "@chakra-ui/react";
+
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonSize = "xs" | "sm" | "md" | "lg";
 type ButtonVariant = "solid" | "outline";
 
 const MultilayerButton = forwardRef(
@@ -19,7 +22,7 @@ const MultilayerButton = forwardRef(
       size = "md",
       variant = "solid",
       noIcon = false,
-      isDisabled = false, // Use isDisabled as prop for clarity
+      isDisabled = false,
       ...props
     }: {
       buttonText: string;
@@ -27,15 +30,15 @@ const MultilayerButton = forwardRef(
       size?: ButtonSize;
       variant?: ButtonVariant;
       noIcon?: boolean;
-      isDisabled?: boolean; // Use isDisabled instead of disabled
+      isDisabled?: boolean;
     },
     ref
   ) => {
     const theme = useTheme();
 
-    // Define size variations
     const sizeConfig: Record<ButtonSize, { width: string; height: string; fontSize: string }> = {
-      sm: { width: "120px", height: "40px", fontSize: "sm" },
+      xs: { width: "130px", height: "34px", fontSize: "xs" },
+      sm: { width: "150px", height: "40px", fontSize: "sm" },
       md: { width: "160px", height: "50px", fontSize: "md" },
       lg: { width: "240px", height: "60px", fontSize: "lg" },
     };
@@ -52,25 +55,25 @@ const MultilayerButton = forwardRef(
         fontWeight="bold"
         color={
           isDisabled
-            ? "gray.400" // Grayed out color for disabled
+            ? "gray.400"
             : isOutline
-            ? theme.colors?.brand?.[500] || "#6c87dc"
-            : "black"
+              ? theme.colors?.brand?.[500] || "#6c87dc"
+              : "black"
         }
         background={
           isDisabled
-            ? "gray.200" // Background for disabled
+            ? "gray.200"
             : isOutline
-            ? "transparent"
-            : "var(--bg-color-1)"
+              ? "transparent"
+              : "var(--bg-color-1)"
         }
         border={isOutline ? "2px solid" : "none"}
         borderColor={
           isDisabled
-            ? "gray.300" // Border for disabled
+            ? "gray.300"
             : isOutline
-            ? theme.colors?.brand?.[500] || "#6c87dc"
-            : "transparent"
+              ? theme.colors?.brand?.[500] || "#6c87dc"
+              : "transparent"
         }
         borderRadius="8px"
         cursor={isDisabled ? "not-allowed" : "pointer"}
@@ -78,17 +81,17 @@ const MultilayerButton = forwardRef(
         height={height}
         fontSize={fontSize}
         ref={ref}
-        onClick={isDisabled ? undefined : onClick} // Prevent click when disabled
-        aria-disabled={isDisabled} // Add ARIA attribute for accessibility
+        onClick={isDisabled ? undefined : onClick}
+        aria-disabled={isDisabled}
         {...props}
         _hover={
           isDisabled
-            ? undefined // No hover effect if disabled
+            ? undefined
             : {
-                "--active": "1",
-                background: isOutline ? "var(--bg-color-1)" : undefined,
-                color: isOutline ? "white" : undefined,
-              }
+              "--active": "1",
+              background: isOutline ? "var(--bg-color-1)" : undefined,
+              color: isOutline ? "white" : undefined,
+            }
         }
         _focusVisible={isDisabled ? undefined : { "--active": "1" }}
         _active={isDisabled ? undefined : { "--active": "0.5" }}
@@ -128,7 +131,7 @@ const MultilayerButton = forwardRef(
               position="absolute"
               right="10px"
               zIndex="4"
-              animate={!isDisabled ? { x: [0, 10, 0] } : undefined} // Disable animation when disabled
+              animate={!isDisabled ? { x: [0, 10, 0] } : undefined}
               transition={{
                 duration: 1,
                 ease: "easeInOut",
@@ -138,13 +141,13 @@ const MultilayerButton = forwardRef(
             >
               <Icon
                 as={ChevronRightIcon}
-                boxSize={6}
+                boxSize={5}
                 color={
                   isDisabled
-                    ? "gray.400" // Icon color for disabled
+                    ? "gray.400"
                     : isOutline
-                    ? theme.colors?.brand?.[500]
-                    : "black"
+                      ? theme.colors?.brand?.[500]
+                      : "black"
                 }
               />
             </Box>
@@ -200,8 +203,3 @@ const MultilayerButton = forwardRef(
 );
 
 export default MultilayerButton;
-
-
-
-
-
