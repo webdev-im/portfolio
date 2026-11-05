@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  devIndicators: false,
+  experimental: {
+    optimizePackageImports: ["@chakra-ui/react"],
+  },
+}
 
-const withTM = require("next-transpile-modules")(["gsap"]);
-module.exports = withTM();
-
-module.exports = nextConfig;
+module.exports = nextConfig

@@ -1,55 +1,69 @@
-import "./globals.css";
+import "./globals.css"
 
-import { CSSPlugin } from "gsap/CSSPlugin";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Inter } from "next/font/google";
-import { gsap } from "gsap";
+import type { Metadata, Viewport } from "next"
+import { Big_Shoulders, IBM_Plex_Mono, Outfit } from "next/font/google"
+import type { ReactNode } from "react"
 
-gsap.registerPlugin(CSSPlugin);
+import { Provider } from "@/components/ui/provider"
+import { profile } from "@/constants/data"
 
-const inter = Inter({ subsets: ["latin"] });
+const display = Big_Shoulders({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-display",
+  display: "swap",
+  adjustFontFallback: false,
+})
 
-export const metadata = {
-  metadataBase: new URL("https://webdevim.netlify.app"), // Replace with your production URL
-  title: "WebDev I'm | Expert Web Designer & Full Stack Developer",
+const sans = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+})
+
+export const metadata: Metadata = {
+  metadataBase: new URL(profile.url),
+  title: "WebDev I'm — Interface through operations",
   description:
-    "Transforming ideas into stunning digital experiences. WebDev I'm specializes in UI/UX design, full-stack development, and modern web technologies. Available for projects and consultations.",
-  icons: {
-    icon: "/favicon.ico",
-  },
+    "Full-stack product architecture. WebDev I'm designs the interface and builds the system under it: Next.js, Chakra UI, Tailwind, Supabase, Firebase, Strapi, AI workflows, domains, and client email.",
   openGraph: {
-    title: "WebDev I'm | Expert Web Designer & Developer",
+    title: "WebDev I'm — Interface through operations",
     description:
-      "Transforming ideas into stunning digital experiences. Check out my portfolio to see my latest work in UI/UX design and web development.",
-    url: "https://webdevim.netlify.app",
-    images: [
-      {
-        url: "/meta-image.jpeg",
-        width: 1200,
-        height: 630,
-        alt: "WebDev I'm - Expert Web Designer & Developer",
-      },
-    ],
+      "Multi-layer products: interface, application, intelligence, data, and the domain they run on.",
+    url: profile.url,
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebDev I'm | Expert Web Designer & Developer",
+    title: "WebDev I'm — Interface through operations",
     description:
-      "Specializing in crafting stunning UI/UX designs and building robust web solutions. Visit my portfolio to learn more.",
-    images: ["/meta-image.jpeg"],
+      "Interface, data, AI, and operations. Designed and built as one system.",
   },
-};
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: "#08090d",
+  colorScheme: "dark",
+}
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className} suppressHydrationWarning={true}>
-        <ChakraProvider>{children}</ChakraProvider>
+    <html
+      lang="en"
+      className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        <Provider>{children}</Provider>
       </body>
     </html>
-  );
+  )
 }
