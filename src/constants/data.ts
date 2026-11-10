@@ -172,8 +172,8 @@ export const works: WorkItem[] = [
     kind: "product",
     summary: "A small brand site, shipped and reachable.",
     href: "https://somethingforwindy.netlify.app",
-    image: "/projects/somethingforwindy.webp",
-    imageAlt: "Something for Windy homepage, a portrait under the studio navigation",
+    image: "/projects/windy-gallery.webp",
+    imageAlt: "Something for Windy gallery, a night view of London beside Iceland, Venice, Paris, and Scotland",
     links: [
       {
         label: "Instagram",
@@ -188,7 +188,7 @@ export const works: WorkItem[] = [
     summary:
       "Marketing site for an auto-care shop. A service index, a reservation prompt, and a language toggle, on a live URL.",
     href: "https://g-service.netlify.app",
-    image: "/projects/gservice.webp",
-    imageAlt: "G Service homepage: repairs made simple, on a yellow field with a dark car",
+    image: "/projects/g-service.webp",
+    imageAlt: "G Service homepage: repairs made simple, with a yellow car and service marks on a dark field",
   },
 ]
