@@ -171,7 +171,7 @@ export const works: WorkItem[] = [
     title: "Something for Windy",
     kind: "product",
     summary: "A small brand site, shipped and reachable.",
-    href: "https://somethingforwindy.netlify.app",
+    href: "https://somethingforwindy.vercel.app",
     image: "/projects/windy-gallery.webp",
     imageAlt: "Something for Windy gallery, a night view of London beside Iceland, Venice, Paris, and Scotland",
     links: [
